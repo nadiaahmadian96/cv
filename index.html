@@ -40,9 +40,13 @@
         </div>
       </div>
       <div class="fcard-back">
-        <div id="fcard-back-content">
-          <div class="fback-title" style="color:var(--accent)">Full-Stack</div>
-          <div class="fback-lines"><div>React · Node.js</div><div>Swift · AWS</div><div>TypeScript</div></div>
+        <!-- Optional video background — drop video.mp4 in repo root -->
+        <video class="fcard-video" autoplay muted loop playsinline aria-hidden="true">
+          <source src="video.mp4" type="video/mp4">
+        </video>
+        <div class="fcard-back-inner">
+          <div class="fcard-name-display">NADIA<br>AHMADIAN</div>
+          <div id="fcard-back-content"></div>
         </div>
       </div>
     </div>
@@ -50,13 +54,13 @@
 
   <!-- LOADER -->
   <div id="loader" aria-hidden="true">
-    <span class="loader-word">Hello.</span>
+    <span class="loader-lang" id="loader-lang">// English</span>
+    <span class="loader-word" id="loader-word">Hello.</span>
     <div class="loader-bar"></div>
   </div>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hex-bg" aria-hidden="true"></div>
 
     <div class="hero-meta hero-meta--left">
       <span>Full-Stack Developer</span>
@@ -101,10 +105,12 @@
     <a href="#contact" class="nav-cta">Say hello →</a>
   </nav>
 
-  <!-- STATEMENT -->
+  <!-- STATEMENT — sticky scroll text reveal -->
   <section id="statement" class="statement-section">
-    <div class="section-inner">
-      <p class="statement-text">I build things that ship — from complex iOS apps to full-stack web platforms. I move fast, write clean code, and care deeply about the people using what I make. Every line has a purpose.</p>
+    <div class="statement-sticky-wrap">
+      <div class="section-inner">
+        <p class="statement-text">I build things that ship — from complex iOS apps to full-stack web platforms. I move fast, write clean code, and care deeply about the people using what I make. Every line has a purpose.</p>
+      </div>
     </div>
   </section>
 
@@ -247,32 +253,71 @@
       </div>
       <div class="riddles-grid">
 
+        <!-- RIDDLE 01: git -->
         <div class="riddle-card reveal" data-answer="git" data-id="0">
-          <div class="riddle-icon">🌿</div>
-          <p class="riddle-q">I have branches but no leaves, commits but no regrets, and a HEAD that moves with every change. What am I?</p>
+          <div class="terminal-bar">
+            <span class="t-dot t-red"></span>
+            <span class="t-dot t-yellow"></span>
+            <span class="t-dot t-green"></span>
+            <span class="terminal-title">riddle_01.sh</span>
+          </div>
+          <pre class="riddle-code">// I have branches but no leaves,
+// commits but no regrets,
+// and a HEAD that moves
+// with every change.
+//
+// Merge me. Push me. Fear me.
+// What am I?</pre>
           <div class="riddle-input-row">
-            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
-            <button class="riddle-submit" aria-label="Submit answer">→</button>
+            <span class="prompt">$&gt;&nbsp;</span>
+            <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
+            <button class="riddle-submit" aria-label="Submit answer">⏎</button>
           </div>
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
 
+        <!-- RIDDLE 02: piano -->
         <div class="riddle-card reveal" data-answer="piano" data-id="1">
-          <div class="riddle-icon">🎹</div>
-          <p class="riddle-q">I have 88 voices but speak only when touched. I cry in minor and laugh in major. I live between your hands. What am I?</p>
+          <div class="terminal-bar">
+            <span class="t-dot t-red"></span>
+            <span class="t-dot t-yellow"></span>
+            <span class="t-dot t-green"></span>
+            <span class="terminal-title">riddle_02.sh</span>
+          </div>
+          <pre class="riddle-code">// 88 voices, one soul.
+// I cry in minor,
+// laugh in major,
+// and live between your hands.
+//
+// Touch me and I speak.
+// What am I?</pre>
           <div class="riddle-input-row">
-            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
-            <button class="riddle-submit" aria-label="Submit answer">→</button>
+            <span class="prompt">$&gt;&nbsp;</span>
+            <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
+            <button class="riddle-submit" aria-label="Submit answer">⏎</button>
           </div>
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
 
+        <!-- RIDDLE 03: game -->
         <div class="riddle-card reveal" data-answer="game" data-id="2">
-          <div class="riddle-icon">🎮</div>
-          <p class="riddle-q">In my world, death is just a checkpoint. I give you quests but no destination. I have a final boss, but you never truly finish. What am I?</p>
+          <div class="terminal-bar">
+            <span class="t-dot t-red"></span>
+            <span class="t-dot t-yellow"></span>
+            <span class="t-dot t-green"></span>
+            <span class="terminal-title">riddle_03.sh</span>
+          </div>
+          <pre class="riddle-code">// Death is a checkpoint here.
+// Quests spawn forever.
+// There IS a final boss —
+// but you never truly finish.
+//
+// INSERT COIN to continue.
+// What am I?</pre>
           <div class="riddle-input-row">
-            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
-            <button class="riddle-submit" aria-label="Submit answer">→</button>
+            <span class="prompt">$&gt;&nbsp;</span>
+            <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
+            <button class="riddle-submit" aria-label="Submit answer">⏎</button>
           </div>
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
@@ -293,14 +338,16 @@
     <!-- Scrolling marquee -->
     <div class="marquee-wrap" aria-hidden="true">
       <div class="marquee-track">
-        <span>Open to work&nbsp;✳&nbsp;</span>
-        <span>Let's build together&nbsp;✳&nbsp;</span>
-        <span>Open to work&nbsp;✳&nbsp;</span>
-        <span>Let's build together&nbsp;✳&nbsp;</span>
-        <span>Open to work&nbsp;✳&nbsp;</span>
-        <span>Let's build together&nbsp;✳&nbsp;</span>
-        <span>Open to work&nbsp;✳&nbsp;</span>
-        <span>Let's build together&nbsp;✳&nbsp;</span>
+        <span class="mq-quote">&ldquo;Innovation distinguishes between a leader and a follower.&rdquo;</span><span class="mq-attr">&nbsp;— Steve Jobs&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Talk is cheap. Show me the code.&rdquo;</span><span class="mq-attr">&nbsp;— Linus Torvalds&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Programs must be written for people to read.&rdquo;</span><span class="mq-attr">&nbsp;— Hal Abelson&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;The best way to predict the future is to invent it.&rdquo;</span><span class="mq-attr">&nbsp;— Alan Kay&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Simplicity is the soul of efficiency.&rdquo;</span><span class="mq-attr">&nbsp;— Austin Freeman&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Innovation distinguishes between a leader and a follower.&rdquo;</span><span class="mq-attr">&nbsp;— Steve Jobs&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Talk is cheap. Show me the code.&rdquo;</span><span class="mq-attr">&nbsp;— Linus Torvalds&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Programs must be written for people to read.&rdquo;</span><span class="mq-attr">&nbsp;— Hal Abelson&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;The best way to predict the future is to invent it.&rdquo;</span><span class="mq-attr">&nbsp;— Alan Kay&nbsp;</span><span class="mq-sep">✦</span>
+        <span class="mq-quote">&ldquo;Simplicity is the soul of efficiency.&rdquo;</span><span class="mq-attr">&nbsp;— Austin Freeman&nbsp;</span><span class="mq-sep">✦</span>
       </div>
     </div>
 

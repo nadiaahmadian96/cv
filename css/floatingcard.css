@@ -104,18 +104,75 @@
   border-radius: 18px;
 }
 
-/* ─── BACK — info ─── */
+/* ─── BACK — video + name + section info ─── */
 .fcard-back {
   background: var(--bg-dark);
-  transform: rotateY(180deg);         /* always pre-rotated */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.2rem 1rem;
-  border: 1.5px solid rgba(0,200,150,0.22);
+  transform: rotateY(180deg);     /* always pre-rotated 180° */
+  border: 1.5px solid rgba(233,30,140,0.30);
+  position: relative;
 }
 
-/* Content fade on section change */
+/* Full-card video layer (sits behind content) */
+.fcard-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+/* Gradient vignette over video */
+.fcard-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(4,4,10,0.7) 100%);
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Overlay wrapper (name + dynamic content) */
+.fcard-back-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.8rem;
+  gap: 0.5rem;
+}
+
+/* "NADIA AHMADIAN" name display */
+.fcard-name-display {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 0 16px rgba(233,30,140,0.5);
+}
+
+/* Thin magenta divider below name */
+.fcard-name-display::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1.5px;
+  background: var(--accent);
+  margin: 0.45rem auto 0;
+  opacity: 0.6;
+}
+
+/* Dynamic section content */
 #fcard-back-content {
   width: 100%;
   text-align: center;
@@ -127,19 +184,19 @@
 }
 
 .fcard-emoji {
-  font-size: 2rem;
-  margin-bottom: 0.4rem;
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
   display: block;
 }
 
 .fcard-back-title {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 
 .fcard-back-lines {
@@ -150,18 +207,23 @@
 
 .fcard-back-lines li {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.7;
+  font-size: 0.58rem;
+  color: rgba(237,232,255,0.6);
+  line-height: 1.8;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.fcard-back-lines li::before {
+  content: '> ';
+  color: var(--accent);
+  opacity: 0.6;
+}
 
 /* ─── Idle bob (docked only) ─── */
 @keyframes cardBob {
-  0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08); }
-  50%       { box-shadow: 0 20px 56px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.12); }
+  0%, 100% { box-shadow: 0 8px 32px rgba(233,30,140,0.12), 0 2px 8px rgba(0,0,0,0.2); }
+  50%       { box-shadow: 0 20px 56px rgba(233,30,140,0.22), 0 4px 16px rgba(0,0,0,0.3); }
 }
 
 #floating-card.fc-docked .fcard-inner {

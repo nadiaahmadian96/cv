@@ -79,8 +79,13 @@
     /* Z-axis tilt: −3° in hero → 0° when docked */
     tgt.rotZ = -3 * (1 - ease);
 
-    /* Y-axis tumble: 0° (front face) → 180° (back face) during travel */
-    tgt.rotY = ease * 180;
+    /* Y-axis tumble: 0° (front face) → 180° (back face) during travel.
+     * Exception: riddles section shows the front face again (360° = full rotation back). */
+    if (ease > 0.96 && currentKey === 'riddles') {
+      tgt.rotY = 360;  // continue spinning past 180° back to front face
+    } else {
+      tgt.rotY = ease * 180;
+    }
 
     /* CSS class for docked state */
     card.classList.toggle('fc-docked', ease > 0.96);
@@ -128,7 +133,7 @@
     },
     contact: {
       emoji: '✉️', title: "Let's Talk",
-      lines: ['afshinshah77@gmail.com', 'Open to collabs', 'Ping me any time', '☕ Coffee chat?'],
+      lines: ['nadia.ahmadian96@yahoo.com', 'Open to collabs', 'Ping me any time', '☕ Coffee chat?'],
     },
   };
 

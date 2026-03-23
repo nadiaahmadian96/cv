@@ -2,26 +2,36 @@
    SECTIONS — statement, skills, experience, contact, footer
 ═══════════════════════════════════════════ */
 
-/* ─── STATEMENT — scroll-driven word reveal ─── */
+/* ─── STATEMENT — sticky 300 vh scroll-reveal ─── */
 .statement-section {
-  padding: 120px 0 80px;
+  min-height: 300vh;
   background: var(--bg);
+  position: relative;
+}
+
+/* The sticky container: pins text to viewport for 200vh of scroll room */
+.statement-sticky-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .statement-text {
   font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.4;
   letter-spacing: -0.02em;
   color: var(--text);
   max-width: 820px;
 }
 
-/* Individual word spans — JS adds .sw--on */
+/* Individual word spans — transparent until JS adds .sw--on */
 .sw {
   display: inline;
-  color: rgba(0,0,0,0.1);
-  transition: color 0.4s ease;
+  color: transparent;
+  transition: color 0.45s ease;
 }
 .sw--on {
   color: var(--text);
@@ -30,6 +40,7 @@
 /* ─── SKILLS ─── */
 #skills {
   padding: 80px 0 0;
+  position: relative;
 }
 
 .skills-inner {
@@ -46,45 +57,44 @@
 .skills-stack {
   display: flex;
   flex-direction: column;
-  /* No gap — each item provides its own scroll room */
 }
 
 .stack-item {
-  /* Enough height to scroll through before next card takes over */
-  min-height: 80vh;
+  /* Enough scroll height so card sits before next one takes over */
+  min-height: 130vh;
   padding-top: 24px;
-  padding-bottom: 24px;
-  display: flex;
-  align-items: flex-start;
-  /* z-index set via inline CSS variable */
+  /* Create a stacking context with z-index from inline --z variable */
   position: relative;
   z-index: var(--z);
 }
 
 .stack-item .skill-card {
-  /* Sticky: card stays visible while its parent is in view */
+  /* Sticky: stays visible while parent scrolls */
   position: sticky;
   top: 88px;
   width: 100%;
   max-width: 680px;
-  /* Solid background so it visually covers the card below */
+  /* Opaque background is essential — covers the card beneath */
   background: var(--bg-card);
   border-radius: var(--radius);
   padding: 2.4rem 2.6rem;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.06), var(--shadow-md);
   border: 1px solid var(--border);
+  box-shadow: 0 4px 40px rgba(233,30,140,0.08);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  /* z-index must also be on the sticky element itself */
+  z-index: var(--z);
 }
 
 .stack-item .skill-card:hover {
-  box-shadow: 0 2px 0 rgba(0,0,0,0.06), var(--shadow-lg);
-  border-color: rgba(0,200,150,0.2);
+  box-shadow: 0 4px 40px rgba(233,30,140,0.2);
+  border-color: rgba(233,30,140,0.3);
 }
 
-/* Scale-down cards that slide under new ones — JS adds .buried */
+/* Scale-down + fade the card being buried — JS adds .buried */
 .stack-item .skill-card.buried {
-  transform: scale(0.97) translateY(-8px);
-  opacity: 0.75;
+  transform: scale(0.96) translateY(-10px);
+  opacity: 0.6;
+  transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .card-tag {
@@ -119,11 +129,41 @@
 .tech-list li {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--text-muted);
-  background: rgba(0,0,0,0.04);
-  border: 1px solid var(--border);
+  color: var(--accent);
+  background: rgba(233,30,140,0.07);
+  border: 1px solid rgba(233,30,140,0.2);
   padding: 0.2rem 0.7rem;
   border-radius: 4px;
+}
+
+/* ─── SKILLS sticky panel (right-side detail, desktop only) ─── */
+.skills-panel {
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+
+#panel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+#panel-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: rgba(233,30,140,0.09);
+  color: var(--accent);
+  border: 1px solid rgba(233,30,140,0.22);
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  animation: tagPop 0.3s ease both;
+}
+
+@keyframes tagPop {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* ─── EXPERIENCE ─── */
@@ -143,11 +183,12 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.8rem 2.2rem;
+  background: var(--bg);
   transition: box-shadow var(--transition), border-color var(--transition);
 }
 .exp-item:hover {
   box-shadow: var(--shadow-md);
-  border-color: rgba(0,200,150,0.2);
+  border-color: rgba(233,30,140,0.3);
 }
 
 .exp-header {
@@ -181,9 +222,9 @@
 .exp-badge {
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  background: rgba(0,200,150,0.1);
-  color: var(--accent-dark);
-  border: 1px solid rgba(0,200,150,0.25);
+  background: rgba(233,30,140,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(233,30,140,0.25);
   padding: 0.2rem 0.65rem;
   border-radius: 4px;
   font-weight: 500;
@@ -229,7 +270,7 @@
   justify-content: flex-end;
 }
 
-/* Large ghost name in background */
+/* Large ghost name in background — magenta stroke on dark bg */
 .contact-ghost {
   position: absolute;
   top: 50%;
@@ -240,7 +281,7 @@
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(0,0,0,0.07);
+  -webkit-text-stroke: 1.5px rgba(233,30,140,0.18);
   text-align: center;
   white-space: nowrap;
   user-select: none;
@@ -248,31 +289,48 @@
   text-transform: uppercase;
 }
 
-/* Marquee ticker */
+/* ── Marquee ticker ── */
 .marquee-wrap {
   overflow: hidden;
   width: 100%;
-  padding: 0.6rem 0;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding: 1rem 0;
+  border-top: 1px solid rgba(233,30,140,0.15);
+  border-bottom: 1px solid rgba(233,30,140,0.15);
   position: relative;
   z-index: 1;
+  background: rgba(233,30,140,0.04);
 }
 
 .marquee-track {
   display: flex;
+  align-items: baseline;
   width: max-content;
-  animation: marqueeScroll 22s linear infinite;
+  animation: marqueeScroll 55s linear infinite;
+  gap: 0;
 }
 
-.marquee-track span {
+.mq-quote {
   font-family: var(--font-sans);
-  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text);
+  font-size: clamp(0.82rem, 1.5vw, 1rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-muted);
   white-space: nowrap;
-  padding: 0.2rem 0.5rem;
+  padding: 0 0.2rem;
+}
+
+.mq-attr {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  color: var(--accent);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.mq-sep {
+  color: rgba(233,30,140,0.5);
+  padding: 0 1.5rem;
+  font-size: 0.7rem;
 }
 
 @keyframes marqueeScroll {
@@ -293,16 +351,17 @@
   font-family: var(--font-mono);
   font-size: clamp(0.85rem, 1.6vw, 1.05rem);
   color: var(--text);
-  border: 1.5px solid var(--text);
+  border: 1.5px solid rgba(233,30,140,0.5);
   padding: 0.9rem 2.2rem;
   border-radius: 100px;
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   word-break: break-all;
   margin-bottom: 2rem;
 }
 .contact-email-main:hover {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 
 .contact-links {
@@ -322,16 +381,16 @@
 }
 .contact-links a:hover { color: var(--accent); }
 
-/* ─── FOOTER — frosted glass, sticky under contact ─── */
+/* ─── FOOTER — frosted dark glass, sticky under contact ─── */
 footer {
   position: sticky;
   bottom: 0;
   z-index: 5;
   padding: 1rem 2rem;
-  background: rgba(234, 234, 232, 0.78);
+  background: rgba(7, 7, 15, 0.88);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-top: 1px solid rgba(0,0,0,0.07);
+  border-top: 1px solid rgba(233,30,140,0.15);
   text-align: center;
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -341,20 +400,20 @@ footer {
 
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
-  .stack-item { min-height: 60vh; }
+  .stack-item { min-height: 100vh; }
   .stack-item .skill-card { max-width: 100%; }
   .contact-ghost { font-size: clamp(3.5rem, 18vw, 8rem); }
 }
 
 @media (max-width: 640px) {
   #skills { padding-top: 60px; }
-  .stack-item { min-height: 50vh; padding-top: 12px; }
+  .stack-item { min-height: 80vh; padding-top: 12px; }
   .stack-item .skill-card { padding: 1.5rem 1.6rem; top: 72px; }
   .skill-card h3 { font-size: 1.15rem; }
   .exp-item { padding: 1.3rem 1.4rem; }
   .exp-header { flex-direction: column; gap: 0.6rem; }
   .section-inner { padding: 70px clamp(1rem, 4vw, 1.5rem); }
-  .statement-section { padding: 80px 0 60px; }
+  .statement-section { min-height: 200vh; }
   .contact-ghost { display: none; }
   footer { position: static; }
 }

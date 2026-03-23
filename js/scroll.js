@@ -25,14 +25,14 @@
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       /* The PREVIOUS card gets .buried when the NEXT card becomes visible */
-      const item  = e.target.closest('.stack-item');
-      const prev  = item && item.previousElementSibling;
+      const item     = e.target.closest('.stack-item');
+      const prev     = item && item.previousElementSibling;
       const prevCard = prev && prev.querySelector('.skill-card');
       if (prevCard) {
         prevCard.classList.toggle('buried', e.isIntersecting);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.55 });
 
   cards.forEach(c => obs.observe(c));
 })();
@@ -91,13 +91,17 @@
   cards.forEach(c => obs.observe(c));
 })();
 
-/* ─── Statement section: scroll-driven word reveal ─── */
+/* ─── Statement section: sticky scroll-driven word reveal ─── */
 (function () {
   const container = document.querySelector('.statement-text');
   if (!container) return;
 
+  /* Parent section (height: 300vh, sticky wrap inside) */
+  const section = container.closest('.statement-section');
+  if (!section) return;
+
   /* Wrap each word in a <span class="sw"> */
-  const raw   = container.textContent;
+  const raw = container.textContent;
   container.innerHTML = raw
     .split(' ')
     .map(w => `<span class="sw">${w}</span>`)
@@ -106,15 +110,19 @@
   const words = Array.from(container.querySelectorAll('.sw'));
 
   function reveal() {
-    const rect     = container.getBoundingClientRect();
-    const viewH    = window.innerHeight;
-    /* progress: 0 when element enters at bottom, 1 when it exits at top */
-    const progress = Math.max(0, Math.min(1,
-      (viewH * 0.85 - rect.top) / rect.height
-    ));
+    const rect  = section.getBoundingClientRect();
+    const viewH = window.innerHeight;
+
+    /* Scroll progress through the sticky zone:
+     * 0  → section just entered viewport (rect.top = 0)
+     * 1  → section has scrolled all the way through (rect.bottom = viewH) */
+    const scrollable = rect.height - viewH;
+    const progress   = scrollable > 0
+      ? Math.max(0, Math.min(1, -rect.top / scrollable))
+      : (rect.top <= 0 ? 1 : 0);
 
     words.forEach((w, i) => {
-      const threshold = (i / words.length) * 0.9;
+      const threshold = (i / words.length) * 0.85;
       w.classList.toggle('sw--on', progress > threshold);
     });
   }

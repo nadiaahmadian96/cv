@@ -1,139 +1,200 @@
 /* ═══════════════════════════════════════════
-   RIDDLES
+   RIDDLES — terminal window aesthetic
 ═══════════════════════════════════════════ */
 
 #riddles {
   background: var(--bg-dark);
+  padding: 100px 0;
 }
 
-#riddles .section-label { color: rgba(255,255,255,.4); }
+#riddles .section-label { color: var(--accent); }
 
-#riddles .section-heading {
-  color: #fff;
-}
-#riddles .section-heading em { color: rgba(255,255,255,.35); }
+#riddles .section-heading { color: var(--text); }
+#riddles .section-heading em { color: var(--accent); }
 
 .riddles-heading { margin-bottom: 1rem; }
 
 .riddles-intro {
-  font-size: .95rem;
-  color: rgba(255,255,255,.45);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--text-muted);
   margin-bottom: 3rem;
   max-width: 480px;
 }
+.riddles-intro::before { content: '// '; color: rgba(233,30,140,0.5); }
 
 /* ─── Grid ─── */
 .riddles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+  gap: 1.4rem;
 }
 
-/* ─── Card ─── */
+/* ─── Terminal Card ─── */
 .riddle-card {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: var(--radius);
-  padding: 1.8rem 1.6rem;
+  background: #0b0b18;
+  border: 1px solid rgba(233,30,140,0.18);
+  border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  overflow: hidden;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 .riddle-card:hover {
-  background: rgba(255,255,255,.065);
-  border-color: rgba(255,255,255,.18);
-  transform: translateY(-3px);
+  border-color: rgba(233,30,140,0.45);
+  box-shadow: 0 0 28px rgba(233,30,140,0.12);
 }
 .riddle-card.solved {
   border-color: var(--accent);
-  background: rgba(0,200,150,.07);
+  box-shadow: 0 0 32px rgba(233,30,140,0.22);
 }
 
-.riddle-icon { font-size: 2rem; line-height: 1; }
+/* ── Terminal title bar ── */
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(233,30,140,0.12);
+  padding: 0.55rem 0.9rem;
+  flex-shrink: 0;
+}
 
-.riddle-q {
-  font-size: .88rem;
-  color: rgba(255,255,255,.7);
-  line-height: 1.65;
+/* macOS-style traffic-light dots */
+.t-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.t-red    { background: #ff5f57; }
+.t-yellow { background: #ffbd2e; }
+.t-green  { background: #28c840; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+/* ── Code block ── */
+.riddle-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: rgba(237,232,255,0.65);
+  padding: 1.2rem 1.2rem 1rem;
+  white-space: pre;
+  overflow-x: auto;
   flex: 1;
+  /* Syntax highlights — comments in muted green */
+  background: transparent;
 }
 
-/* ─── Input ─── */
+/* Comment-style riddle text */
+.riddle-code {
+  color: #6a9955;   /* VSCode comment green */
+}
+
+/* ── Input row with $> prompt ── */
 .riddle-input-row {
   display: flex;
-  gap: .5rem;
+  align-items: center;
+  gap: 0;
+  padding: 0.7rem 1rem 0.8rem;
+  border-top: 1px solid rgba(233,30,140,0.08);
+  background: rgba(0,0,0,0.25);
+}
+
+.prompt {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  user-select: none;
 }
 
 .riddle-input {
   flex: 1;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 8px;
-  padding: .55rem .9rem;
-  font-family: var(--font-sans);
-  font-size: .85rem;
-  color: #fff;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(233,30,140,0.25);
+  padding: 0.15rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text);
   outline: none;
-  transition: border-color var(--transition), background var(--transition);
+  transition: border-color var(--transition);
 }
-.riddle-input::placeholder { color: rgba(255,255,255,.3); }
-.riddle-input:focus {
-  border-color: var(--accent);
-  background: rgba(0,200,150,.07);
-}
-.riddle-input:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
+.riddle-input::placeholder { color: rgba(233,30,140,0.25); font-style: italic; }
+.riddle-input:focus { border-bottom-color: var(--accent); }
+.riddle-input:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .riddle-submit {
-  background: rgba(255,255,255,.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 8px;
-  width: 38px;
-  font-size: 1rem;
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition), border-color var(--transition);
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(233,30,140,0.2);
+  border-radius: 4px;
+  width: 32px;
+  height: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   flex-shrink: 0;
+  cursor: pointer;
 }
 .riddle-submit:hover {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--bg-dark);
+  color: #fff;
 }
-.riddle-submit:disabled { opacity: .4; }
+.riddle-submit:disabled { opacity: 0.35; pointer-events: none; }
 
-/* ─── Feedback ─── */
+/* ── Feedback line ── */
 .riddle-feedback {
   font-family: var(--font-mono);
-  font-size: .75rem;
-  min-height: 1em;
-  transition: color .2s;
+  font-size: 0.72rem;
+  padding: 0.3rem 1rem 0.7rem;
+  min-height: 1.6em;
+  color: var(--text-muted);
+  background: rgba(0,0,0,0.25);
 }
-.riddle-feedback.correct { color: var(--accent); }
-.riddle-feedback.wrong   { color: #ff6b6b; }
+.riddle-feedback.correct { color: #28c840; }
+.riddle-feedback.wrong   { color: #ff5f57; }
+
+/* ── Solved state overlay text ── */
+.riddle-card.solved .terminal-title::after {
+  content: ' ✓ solved';
+  color: #28c840;
+}
 
 /* ─── Unlock banner ─── */
 .riddle-unlock {
   margin-top: 2.5rem;
-  background: rgba(0,200,150,.12);
-  border: 1px solid rgba(0,200,150,.3);
+  background: rgba(233,30,140,0.08);
+  border: 1px solid rgba(233,30,140,0.3);
   border-radius: var(--radius-sm);
   padding: 1.2rem 1.6rem;
   text-align: center;
-  color: rgba(255,255,255,.8);
-  font-size: .92rem;
-  line-height: 1.6;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
   display: none;
-  animation: popIn .4s ease;
+  animation: popIn 0.4s ease;
 }
 .riddle-unlock[aria-hidden="false"] { display: block; }
 .riddle-unlock strong { color: var(--accent); }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(.96) translateY(8px); }
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -143,5 +204,5 @@
 }
 @media (max-width: 560px) {
   .riddles-grid { grid-template-columns: 1fr; }
-  .riddle-card  { padding: 1.4rem 1.2rem; }
+  .riddle-code  { font-size: 0.72rem; }
 }

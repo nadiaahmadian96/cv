@@ -171,9 +171,9 @@
        LAYOUT HELPERS
     ───────────────────────────────────────────── */
     .section-inner {
-      max-width: 1000px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 100px clamp(1.5rem, 5vw, 3rem);
+      padding: 100px clamp(1.5rem, 5vw, 2.5rem);
     }
     .section-title {
       display: flex; align-items: center; gap: 1rem;
@@ -219,7 +219,7 @@
     #hero {
       position: relative;
       min-height: 100vh;
-      display: flex; align-items: center;
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
     #particles-canvas {
@@ -230,9 +230,11 @@
     }
     .hero-content {
       position: relative; z-index: 1;
-      padding: 0 clamp(1.5rem, 10vw, 7rem);
-      padding-top: 70px;
-      max-width: 900px;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 100px clamp(1.5rem, 5vw, 3rem) 0;
+      text-align: center;
     }
     .hero-greeting {
       font-family: var(--mono);
@@ -243,7 +245,7 @@
       animation: fadeUp .6s .8s ease forwards;
     }
     .hero-name {
-      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-size: clamp(2.8rem, 7vw, 5rem);
       font-weight: 700;
       color: var(--white);
       line-height: 1.1;
@@ -251,11 +253,11 @@
       animation: fadeUp .6s 1s ease forwards;
     }
     .hero-sub {
-      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-size: clamp(1.4rem, 4vw, 2.6rem);
       font-weight: 600;
       color: var(--muted);
       line-height: 1.2;
-      margin-top: .2rem;
+      margin-top: .4rem;
       opacity: 0;
       animation: fadeUp .6s 1.2s ease forwards;
       min-height: 1.2em;
@@ -273,15 +275,16 @@
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
     .hero-desc {
-      max-width: 520px;
+      max-width: 540px;
+      margin: 1.5rem auto 0;
       color: var(--muted);
       font-size: clamp(.9rem, 1.5vw, 1.05rem);
-      margin-top: 1.5rem;
       opacity: 0;
       animation: fadeUp .6s 1.4s ease forwards;
     }
     .hero-cta {
       display: flex; gap: 1.2rem; flex-wrap: wrap;
+      justify-content: center;
       margin-top: 2.5rem;
       opacity: 0;
       animation: fadeUp .6s 1.6s ease forwards;
@@ -357,8 +360,8 @@
     ───────────────────────────────────────────── */
     #about .about-grid {
       display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 4rem;
+      grid-template-columns: 1fr 280px;
+      gap: 3rem;
       align-items: start;
     }
     .about-text p {
@@ -1032,15 +1035,10 @@
 
       <div class="about-photo-wrap reveal reveal-delay-2">
         <div class="photo-container">
-          <!--
-            ADD YOUR PHOTO:
-            Replace the placeholder div below with:
-            <img src="photo.jpg" alt="Nadia Ahmadian" />
-            and place your photo file (photo.jpg) in the same folder as index.html.
-          -->
-          <div class="photo-placeholder">
+          <img src="photo.jpg" alt="Nadia Ahmadian"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="photo-placeholder" style="display:none;">
             <div class="photo-initials">NA</div>
-            <span>Add photo.jpg</span>
           </div>
         </div>
       </div>

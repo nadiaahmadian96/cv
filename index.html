@@ -3,1593 +3,315 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nadia Ahmadian — Software Engineer specialising in Full-Stack & iOS development, based in Vancouver, BC." />
+  <meta name="description" content="Nadia Ahmadian — Software Engineer. Full-Stack, iOS, Vancouver BC." />
   <title>Nadia Ahmadian</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    /* ─────────────────────────────────────────────
-       DESIGN TOKENS
-    ───────────────────────────────────────────── */
-    :root {
-      --bg:        #0a192f;
-      --bg2:       #112240;
-      --bg3:       #1d3461;
-      --accent:    #64ffda;
-      --accent2:   #57cbff;
-      --white:     #e6f1ff;
-      --slate:     #ccd6f6;
-      --muted:     #8892b0;
-      --border:    rgba(100,255,218,.12);
-      --mono:      'Fira Code', monospace;
-      --sans:      'Inter', sans-serif;
-      --transition: .25s cubic-bezier(.645,.045,.355,1);
-      --shadow:    0 10px 30px -15px rgba(2,12,27,.7);
-    }
-
-    /* ─────────────────────────────────────────────
-       RESET & BASE
-    ───────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--slate);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    @media (hover: hover) and (pointer: fine) {
-      body { cursor: none; }
-      button { cursor: none; }
-    }
-    ::selection { background: rgba(100,255,218,.2); color: var(--accent); }
-
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    a { text-decoration: none; color: inherit; }
-    button { border: none; background: none; font-family: var(--sans); }
-    img { display: block; max-width: 100%; }
-    ul { list-style: none; }
-
-    /* ─────────────────────────────────────────────
-       CUSTOM CURSOR
-    ───────────────────────────────────────────── */
-    #cursor-dot {
-      position: fixed; top: 0; left: 0; z-index: 9999;
-      width: 8px; height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: width .15s, height .15s, background .15s;
-    }
-    #cursor-ring {
-      position: fixed; top: 0; left: 0; z-index: 9998;
-      width: 36px; height: 36px;
-      border: 1.5px solid var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: transform .08s linear, width .25s, height .25s, opacity .25s;
-      opacity: .6;
-    }
-    body.cursor-hover #cursor-dot { width: 14px; height: 14px; background: var(--accent2); }
-    body.cursor-hover #cursor-ring { width: 50px; height: 50px; opacity: .3; }
-
-    /* ─────────────────────────────────────────────
-       LOADING SCREEN
-    ───────────────────────────────────────────── */
-    #loader {
-      position: fixed; inset: 0; z-index: 10000;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity .6s ease, visibility .6s ease;
-    }
-    #loader.hidden { opacity: 0; visibility: hidden; }
-    .loader-text {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      letter-spacing: .15em;
-    }
-    .loader-bar {
-      position: absolute; bottom: 0; left: 0;
-      height: 2px; background: var(--accent);
-      width: 0;
-      animation: loaderBar 1.4s ease forwards;
-    }
-    @keyframes loaderBar { to { width: 100%; } }
-
-    /* ─────────────────────────────────────────────
-       NAVIGATION
-    ───────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 3rem);
-      height: 70px;
-      background: rgba(10,25,47,.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
-      transition: border-color var(--transition), background var(--transition);
-    }
-    nav.scrolled { border-bottom-color: var(--border); }
-    .nav-logo {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: 1.2rem;
-      font-weight: 500;
-      letter-spacing: .05em;
-    }
-    .nav-logo span { color: var(--white); }
-    .nav-links {
-      display: flex; align-items: center; gap: clamp(1rem, 2vw, 2rem);
-    }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: .85rem;
-      color: var(--muted);
-      transition: color var(--transition);
-      counter-increment: nav-item;
-    }
-    .nav-links a::before {
-      content: "0" counter(nav-item) ". ";
-      color: var(--accent);
-      font-size: .75rem;
-    }
-    .nav-links { counter-reset: nav-item; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    .nav-resume {
-      font-family: var(--mono);
-      font-size: .85rem;
-      color: var(--accent) !important;
-      border: 1px solid var(--accent);
-      padding: .5rem 1rem;
-      border-radius: 4px;
-      transition: background var(--transition), color var(--transition) !important;
-    }
-    .nav-resume::before { content: none !important; }
-    .nav-resume:hover { background: rgba(100,255,218,.1); }
-    .hamburger {
-      display: none;
-      flex-direction: column; gap: 5px; cursor: none;
-    }
-    .hamburger span {
-      width: 26px; height: 2px;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: var(--transition);
-    }
-
-    /* ─────────────────────────────────────────────
-       LAYOUT HELPERS
-    ───────────────────────────────────────────── */
-    .section-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 100px clamp(1.5rem, 5vw, 2.5rem);
-    }
-    .section-title {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 3rem;
-      white-space: nowrap;
-    }
-    .section-title .num {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: clamp(.9rem, 2vw, 1rem);
-    }
-    .section-title h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 600;
-      color: var(--white);
-    }
-    .section-title::after {
-      content: '';
-      flex: 1; height: 1px;
-      background: var(--border);
-      min-width: 40px;
-    }
-
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: .1s; }
-    .reveal-delay-2 { transition-delay: .2s; }
-    .reveal-delay-3 { transition-delay: .3s; }
-    .reveal-delay-4 { transition-delay: .4s; }
-    .reveal-delay-5 { transition-delay: .5s; }
-
-    /* ─────────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────────── */
-    #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    #particles-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .hero-content {
-      position: relative; z-index: 1;
-      width: 100%;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 100px clamp(1.5rem, 5vw, 3rem) 0;
-      text-align: center;
-    }
-    .hero-greeting {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: clamp(.85rem, 2vw, 1rem);
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp .6s .8s ease forwards;
-    }
-    .hero-name {
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.1;
-      opacity: 0;
-      animation: fadeUp .6s 1s ease forwards;
-    }
-    .hero-sub {
-      font-size: clamp(1.4rem, 4vw, 2.6rem);
-      font-weight: 600;
-      color: var(--muted);
-      line-height: 1.2;
-      margin-top: .4rem;
-      opacity: 0;
-      animation: fadeUp .6s 1.2s ease forwards;
-      min-height: 1.2em;
-    }
-    .hero-sub #typed-text {
-      color: var(--slate);
-    }
-    .cursor-blink {
-      display: inline-block;
-      width: 3px; height: .85em;
-      background: var(--accent);
-      margin-left: 2px;
-      vertical-align: middle;
-      animation: blink .9s step-end infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .hero-desc {
-      max-width: 540px;
-      margin: 1.5rem auto 0;
-      color: var(--muted);
-      font-size: clamp(.9rem, 1.5vw, 1.05rem);
-      opacity: 0;
-      animation: fadeUp .6s 1.4s ease forwards;
-    }
-    .hero-cta {
-      display: flex; gap: 1.2rem; flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 2.5rem;
-      opacity: 0;
-      animation: fadeUp .6s 1.6s ease forwards;
-    }
-    .btn {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: .9rem;
-      padding: .9rem 1.8rem;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-    .btn-outline {
-      border: 1px solid var(--accent);
-      color: var(--accent);
-    }
-    .btn-outline:hover { background: rgba(100,255,218,.1); transform: translateY(-2px); }
-    .btn-ghost {
-      color: var(--muted);
-      border: 1px solid var(--muted);
-    }
-    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
-    .hero-social {
-      position: fixed;
-      left: clamp(1rem, 2.5vw, 2rem);
-      bottom: 0;
-      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
-      z-index: 10;
-      opacity: 0;
-      animation: fadeUp .6s 2s ease forwards;
-    }
-    .hero-social::after {
-      content: '';
-      width: 1px; height: 90px;
-      background: var(--muted);
-    }
-    .hero-social a {
-      color: var(--muted);
-      font-size: 1.2rem;
-      transition: color var(--transition), transform var(--transition);
-    }
-    .hero-social a:hover { color: var(--accent); transform: translateY(-3px); }
-    .hero-email {
-      position: fixed;
-      right: clamp(1rem, 2.5vw, 2rem);
-      bottom: 0;
-      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
-      z-index: 10;
-      opacity: 0;
-      animation: fadeUp .6s 2s ease forwards;
-    }
-    .hero-email::after {
-      content: '';
-      width: 1px; height: 90px;
-      background: var(--muted);
-    }
-    .hero-email a {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--muted);
-      writing-mode: vertical-rl;
-      letter-spacing: .1em;
-      transition: color var(--transition), transform var(--transition);
-    }
-    .hero-email a:hover { color: var(--accent); transform: translateY(-3px); }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─────────────────────────────────────────────
-       ABOUT
-    ───────────────────────────────────────────── */
-    #about .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 3rem;
-      align-items: start;
-    }
-    .about-text p {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      line-height: 1.7;
-    }
-    .about-text p a {
-      color: var(--accent);
-      transition: opacity var(--transition);
-    }
-    .about-text p a:hover { opacity: .7; }
-    .about-tech {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: .4rem .8rem;
-      margin-top: 1.5rem;
-    }
-    .about-tech li {
-      font-family: var(--mono);
-      font-size: .82rem;
-      color: var(--muted);
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .about-tech li::before {
-      content: '▹';
-      color: var(--accent);
-      font-size: .8rem;
-    }
-    .about-photo-wrap {
-      position: relative;
-    }
-    .photo-container {
-      position: relative;
-      width: 100%;
-      max-width: 300px;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .photo-container::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(100,255,218,.12);
-      border: 2px solid var(--accent);
-      border-radius: 6px;
-      transform: translate(10px, 10px);
-      z-index: -1;
-      transition: transform var(--transition);
-    }
-    .photo-container:hover::after {
-      transform: translate(6px, 6px);
-    }
-    .photo-container img {
-      width: 100%;
-      filter: grayscale(30%) contrast(1.05);
-      border-radius: 6px;
-      transition: filter var(--transition);
-      display: block;
-    }
-    .photo-container:hover img { filter: none; }
-    .photo-placeholder {
-      width: 100%;
-      aspect-ratio: 3/4;
-      background: var(--bg2);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: .5rem;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: .85rem;
-    }
-    .photo-initials {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: var(--accent);
-      opacity: .5;
-    }
-    .hobbies-row {
-      display: flex; gap: 1.2rem; flex-wrap: wrap;
-      margin-top: 2.5rem;
-    }
-    .hobby-pill {
-      display: flex; align-items: center; gap: .5rem;
-      padding: .45rem 1rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: .88rem;
-      color: var(--muted);
-      transition: border-color var(--transition), color var(--transition), transform var(--transition);
-    }
-    .hobby-pill:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-    .hobby-pill .emoji { font-size: 1rem; }
-
-    /* ─────────────────────────────────────────────
-       SKILLS
-    ───────────────────────────────────────────── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .skill-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.8rem;
-      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
-    }
-    .skill-card:hover {
-      border-color: rgba(100,255,218,.3);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-    }
-    .skill-card-title {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: .85rem;
-      margin-bottom: 1.2rem;
-      display: flex; align-items: center; gap: .6rem;
-    }
-    .skill-card-title .icon { font-size: 1.1rem; }
-    .skill-tags {
-      display: flex; flex-wrap: wrap; gap: .5rem;
-    }
-    .skill-tag {
-      font-family: var(--mono);
-      font-size: .76rem;
-      color: var(--muted);
-      background: rgba(100,255,218,.06);
-      border: 1px solid rgba(100,255,218,.15);
-      padding: .25rem .65rem;
-      border-radius: 3px;
-      transition: background var(--transition), color var(--transition);
-    }
-    .skill-tag:hover { background: rgba(100,255,218,.12); color: var(--accent); }
-
-    /* ─────────────────────────────────────────────
-       EXPERIENCE
-    ───────────────────────────────────────────── */
-    .exp-tabs {
-      display: flex;
-    }
-    .exp-tab-list {
-      display: flex; flex-direction: column;
-      min-width: 160px;
-      border-left: 1px solid var(--bg3);
-      margin-right: 2rem;
-    }
-    .exp-tab {
-      font-family: var(--mono);
-      font-size: .82rem;
-      color: var(--muted);
-      padding: .85rem 1.4rem;
-      text-align: left;
-      border-left: 2px solid transparent;
-      margin-left: -1px;
-      transition: color var(--transition), border-color var(--transition), background var(--transition);
-      white-space: nowrap;
-    }
-    .exp-tab:hover { color: var(--accent); background: rgba(100,255,218,.05); }
-    .exp-tab.active { color: var(--accent); border-left-color: var(--accent); background: rgba(100,255,218,.05); }
-    .exp-panels { flex: 1; }
-    .exp-panel { display: none; }
-    .exp-panel.active { display: block; }
-    .exp-role {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: .3rem;
-    }
-    .exp-role span { color: var(--accent); }
-    .exp-meta {
-      font-family: var(--mono);
-      font-size: .8rem;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-    }
-    .exp-bullets li {
-      position: relative;
-      padding-left: 1.5rem;
-      color: var(--muted);
-      font-size: .95rem;
-      margin-bottom: .7rem;
-      line-height: 1.6;
-    }
-    .exp-bullets li::before {
-      content: '▹';
-      position: absolute; left: 0;
-      color: var(--accent);
-    }
-
-    /* ─────────────────────────────────────────────
-       BEYOND THE CODE (hobbies full section)
-    ───────────────────────────────────────────── */
-    .beyond-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-    .beyond-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color var(--transition), transform var(--transition);
-    }
-    .beyond-card:hover { border-color: rgba(100,255,218,.3); transform: translateY(-4px); }
-    .beyond-card::before {
-      content: attr(data-emoji);
-      position: absolute;
-      top: -10px; right: -10px;
-      font-size: 5rem;
-      opacity: .06;
-      line-height: 1;
-      pointer-events: none;
-    }
-    .beyond-emoji { font-size: 2.2rem; margin-bottom: 1rem; }
-    .beyond-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: .6rem;
-    }
-    .beyond-desc { color: var(--muted); font-size: .9rem; line-height: 1.6; }
-
-    /* ─────────────────────────────────────────────
-       CONTACT
-    ───────────────────────────────────────────── */
-    #contact .contact-inner {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    .contact-overline {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: .9rem;
-      margin-bottom: 1rem;
-    }
-    .contact-title {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
-    .contact-desc {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.7;
-    }
-    .contact-links {
-      display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
-      margin-top: 2.5rem;
-    }
-    .contact-link {
-      display: flex; align-items: center; gap: .5rem;
-      font-family: var(--mono);
-      font-size: .85rem;
-      color: var(--muted);
-      transition: color var(--transition);
-    }
-    .contact-link:hover { color: var(--accent); }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--muted);
-    }
-    footer a { color: var(--accent); }
-    footer a:hover { text-decoration: underline; }
-
-    /* ─────────────────────────────────────────────
-       PIANO BUTTON & MODAL
-    ───────────────────────────────────────────── */
-    #piano-btn {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      z-index: 500;
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: var(--bg2);
-      border: 1.5px solid var(--border);
-      font-size: 1.5rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
-      box-shadow: var(--shadow);
-      animation: pulse 3s 4s ease infinite;
-    }
-    #piano-btn:hover {
-      border-color: var(--accent);
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(100,255,218,.2);
-      animation: none;
-    }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(100,255,218,0); border-color: var(--border); }
-      50% { box-shadow: 0 0 0 8px rgba(100,255,218,.1); border-color: rgba(100,255,218,.4); }
-    }
-    #piano-modal {
-      position: fixed; inset: 0; z-index: 2000;
-      background: rgba(2,8,20,.85);
-      backdrop-filter: blur(12px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; visibility: hidden;
-      transition: opacity .3s ease, visibility .3s ease;
-    }
-    #piano-modal.open { opacity: 1; visibility: visible; }
-    .piano-box {
-      background: var(--bg2);
-      border: 1px solid rgba(100,255,218,.2);
-      border-radius: 12px;
-      padding: 2rem 2.5rem 2.5rem;
-      max-width: 700px;
-      width: 95vw;
-      transform: translateY(20px);
-      transition: transform .3s ease;
-    }
-    #piano-modal.open .piano-box { transform: translateY(0); }
-    .piano-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .piano-title {
-      font-family: var(--mono);
-      color: var(--accent);
-      font-size: 1rem;
-    }
-    .piano-subtitle {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--muted);
-      margin-top: .2rem;
-    }
-    .piano-close {
-      color: var(--muted);
-      font-size: 1.4rem;
-      line-height: 1;
-      transition: color var(--transition);
-    }
-    .piano-close:hover { color: var(--accent); }
-    .piano-keys {
-      position: relative;
-      height: 140px;
-      display: flex;
-      user-select: none;
-    }
-    .key-white {
-      position: relative;
-      flex: 1;
-      background: #f0ede6;
-      border: 1px solid #aaa;
-      border-radius: 0 0 5px 5px;
-      display: flex; align-items: flex-end; justify-content: center;
-      padding-bottom: .5rem;
-      font-size: .55rem;
-      font-family: var(--mono);
-      color: #666;
-      transition: background .05s;
-      cursor: none;
-    }
-    .key-white:hover, .key-white.pressed { background: #d4f5ee; }
-    .key-white.pressed { background: rgba(100,255,218,.6); }
-    .key-black {
-      position: absolute;
-      width: 62%;
-      height: 62%;
-      background: #1a1a2e;
-      border: 1px solid #333;
-      border-radius: 0 0 4px 4px;
-      top: 0;
-      z-index: 2;
-      display: flex; align-items: flex-end; justify-content: center;
-      padding-bottom: .35rem;
-      font-size: .52rem;
-      font-family: var(--mono);
-      color: #888;
-      transition: background .05s;
-      cursor: none;
-    }
-    .key-black:hover, .key-black.pressed { background: #16213e; }
-    .key-black.pressed { background: rgba(100,255,218,.3); }
-    .piano-hint {
-      margin-top: 1.2rem;
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--muted);
-      text-align: center;
-    }
-    .piano-hint span { color: var(--accent); }
-
-    /* Hamburger → X animation */
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* ─────────────────────────────────────────────
-       MOBILE NAV
-    ───────────────────────────────────────────── */
-    .mobile-nav {
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(10,25,47,.97);
-      backdrop-filter: blur(16px);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 0;
-      counter-reset: mob-item;
-      transform: translateX(100%);
-      transition: transform .4s cubic-bezier(.645,.045,.355,1);
-    }
-    .mobile-nav.open { transform: translateX(0); }
-    .mobile-nav a {
-      font-family: var(--mono);
-      font-size: clamp(1.1rem, 5vw, 1.4rem);
-      color: var(--muted);
-      transition: color var(--transition);
-      counter-increment: mob-item;
-      padding: 1.1rem 2rem;
-      width: 100%;
-      text-align: center;
-      border-bottom: 1px solid rgba(100,255,218,.05);
-    }
-    .mobile-nav a:first-child { border-top: 1px solid rgba(100,255,218,.05); }
-    .mobile-nav a::before {
-      content: "0" counter(mob-item) ". ";
-      color: var(--accent);
-      font-size: .75rem;
-    }
-    .mobile-nav a:active { color: var(--accent); background: rgba(100,255,218,.05); }
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE – touch devices: restore cursor
-    ───────────────────────────────────────────── */
-    @media (hover: none) {
-      body { cursor: auto; }
-      button { cursor: pointer; }
-      a { cursor: pointer; }
-      #cursor-dot, #cursor-ring { display: none; }
-    }
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE – tablets & below (≤ 900px)
-    ───────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .hero-content { padding-left: clamp(1.5rem, 6vw, 4rem); padding-right: clamp(1.5rem, 6vw, 4rem); }
-      .section-inner { padding-left: clamp(1.2rem, 5vw, 2.5rem); padding-right: clamp(1.2rem, 5vw, 2.5rem); }
-      .hero-social, .hero-email { display: none; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .beyond-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE – mobile (≤ 768px)
-    ───────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      /* Nav */
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-
-      /* Reduce section vertical padding */
-      .section-inner { padding-top: 70px; padding-bottom: 70px; }
-
-      /* Hero */
-      #hero { min-height: 100svh; align-items: flex-end; padding-bottom: 3rem; }
-      .hero-content {
-        padding: 100px 1.5rem 0;
-        max-width: 100%;
-      }
-      .hero-name { font-size: clamp(2.2rem, 11vw, 3.5rem); }
-      .hero-sub  { font-size: clamp(1.3rem, 7vw, 2.2rem); }
-      .hero-desc { font-size: .93rem; }
-      .hero-cta  { flex-direction: column; gap: .9rem; }
-      .hero-cta .btn { text-align: center; }
-
-      /* About */
-      #about .about-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-      .about-photo-wrap { order: -1; }
-      .photo-container { max-width: 220px; margin: 0 auto; }
-      .about-tech { grid-template-columns: repeat(2, 1fr); }
-      .hobbies-row { gap: .7rem; }
-
-      /* Skills */
-      .skills-grid { grid-template-columns: 1fr; }
-      .skill-card { padding: 1.4rem; }
-
-      /* Experience tabs – horizontal scrollable list */
-      .exp-tabs { flex-direction: column; }
-      .exp-tab-list {
-        flex-direction: row;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-left: none;
-        border-bottom: 1px solid var(--bg3);
-        margin-right: 0;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0;
-        gap: 0;
-        scrollbar-width: none;
-      }
-      .exp-tab-list::-webkit-scrollbar { display: none; }
-      .exp-tab {
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        margin-left: 0;
-        margin-bottom: -1px;
-        white-space: nowrap;
-        padding: .75rem 1.1rem;
-        font-size: .78rem;
-      }
-      .exp-tab.active {
-        border-bottom-color: var(--accent);
-        border-left: none;
-        background: none;
-      }
-      .exp-role { font-size: 1rem; }
-      .exp-bullets li { font-size: .88rem; }
-
-      /* Beyond */
-      .beyond-grid { grid-template-columns: 1fr; }
-      .beyond-card { padding: 1.5rem; }
-
-      /* Contact */
-      .contact-title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
-      .contact-links { flex-direction: column; align-items: center; gap: 1rem; }
-
-      /* Section title line */
-      .section-title::after { display: none; }
-
-      /* Piano btn – move up slightly so it doesn't clash with mobile browser chrome */
-      #piano-btn { bottom: 1.2rem; right: 1.2rem; width: 46px; height: 46px; font-size: 1.3rem; }
-
-      /* Piano modal */
-      .piano-box { padding: 1.4rem 1rem 1.6rem; }
-      .piano-keys { height: 110px; }
-      .key-white { font-size: .48rem; }
-      .key-black { font-size: .44rem; }
-      .piano-hint { font-size: .65rem; }
-    }
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE – small phones (≤ 480px)
-    ───────────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .hero-name { font-size: clamp(2rem, 12vw, 2.8rem); }
-      .hero-sub  { font-size: clamp(1.1rem, 8vw, 1.8rem); }
-      .section-inner { padding-left: 1.1rem; padding-right: 1.1rem; }
-      .skills-grid, .beyond-grid { gap: 1rem; }
-      .hobby-pill { font-size: .8rem; padding: .35rem .8rem; }
-      .exp-tab { padding: .65rem .9rem; font-size: .74rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Caveat:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/riddles.css" />
+  <link rel="stylesheet" href="css/piano.css" />
 </head>
 <body>
 
-<!-- ─── LOADER ─── -->
-<div id="loader">
-  <div class="loader-text">na.dev</div>
-  <div class="loader-bar"></div>
-</div>
+  <!-- CURSOR -->
+  <div id="cursor-dot"  aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
 
-<!-- ─── CURSOR ─── -->
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
+  <!-- LOADER -->
+  <div id="loader" aria-hidden="true">
+    <span class="loader-word">Hello.</span>
+    <div class="loader-bar"></div>
+  </div>
 
-<!-- ─── NAVIGATION ─── -->
-<nav id="nav">
-  <a href="#hero" class="nav-logo">&lt;<span>NA</span> /&gt;</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#beyond">Beyond</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="https://github.com/nadiaahmadian96" target="_blank" rel="noopener" class="nav-resume">GitHub</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hex-bg" aria-hidden="true"></div>
 
-<!-- Mobile nav -->
-<div class="mobile-nav" id="mobile-nav">
-  <a href="#about" class="mob-link">About</a>
-  <a href="#skills" class="mob-link">Skills</a>
-  <a href="#experience" class="mob-link">Experience</a>
-  <a href="#beyond" class="mob-link">Beyond</a>
-  <a href="#contact" class="mob-link">Contact</a>
-</div>
-
-<!-- ─── HERO ─── -->
-<section id="hero">
-  <canvas id="particles-canvas"></canvas>
-  <div class="hero-content">
-    <p class="hero-greeting">Hi, my name is</p>
-    <h1 class="hero-name">Nadia Ahmadian.</h1>
-    <h2 class="hero-sub">I <span id="typed-text"></span><span class="cursor-blink"></span></h2>
-    <p class="hero-desc">
-      Software Engineer with 5+ years of experience building production web, cloud, and mobile applications.
-      Based in Vancouver, BC — crafting clean, scalable solutions across the full stack.
-    </p>
-    <div class="hero-cta">
-      <a href="#experience" class="btn btn-outline">View My Work</a>
-      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+    <div class="hero-meta hero-meta--left">
+      <span>Full-Stack Developer</span>
     </div>
-  </div>
 
-  <!-- Social sidebar -->
-  <div class="hero-social">
-    <a href="https://github.com/nadiaahmadian96" target="_blank" rel="noopener" aria-label="GitHub">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-    </a>
-    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-    </a>
-  </div>
+    <div class="hero-center">
+      <div class="hero-name-row">
+        <h1 class="hero-first">NADIA</h1>
 
-  <!-- Email sidebar -->
-  <div class="hero-email">
-    <a href="mailto:nadia.ahmadian96@yahoo.com">nadia.ahmadian96@yahoo.com</a>
-  </div>
-</section>
-
-<!-- ─── ABOUT ─── -->
-<section id="about">
-  <div class="section-inner">
-    <div class="section-title reveal">
-      <span class="num">01.</span>
-      <h2>About Me</h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p class="reveal reveal-delay-1">
-          I'm a software engineer who loves turning complex problems into elegant, performant solutions.
-          My background spans the full development lifecycle — from designing system architecture and
-          building RESTful APIs, to crafting responsive UIs and shipping iOS apps to production.
-        </p>
-        <p class="reveal reveal-delay-2">
-          I've spent the last 5+ years working on enterprise-grade systems in security, facility management,
-          and e-commerce — owning features end-to-end, collaborating with stakeholders, and caring deeply
-          about code quality, user experience, and reliability.
-        </p>
-        <p class="reveal reveal-delay-3">
-          Outside of work I hold a degree in both Computer Engineering and Electrical Engineering from
-          Ferdowsi University of Mashhad, and I'm always learning something new.
-        </p>
-        <ul class="about-tech reveal reveal-delay-4">
-          <li>React / Next.js</li>
-          <li>Node.js / Express</li>
-          <li>TypeScript</li>
-          <li>Swift / SwiftUI</li>
-          <li>AWS (EC2, S3)</li>
-          <li>Docker / CI/CD</li>
-        </ul>
-
-        <div class="hobbies-row reveal reveal-delay-5">
-          <span class="hobby-pill"><span class="emoji">🎹</span> Piano Player &amp; Teacher</span>
-          <span class="hobby-pill"><span class="emoji">🎮</span> Gaming</span>
-          <span class="hobby-pill"><span class="emoji">🏸</span> Badminton</span>
-        </div>
-      </div>
-
-      <div class="about-photo-wrap reveal reveal-delay-2">
-        <div class="photo-container">
+        <div class="hero-photo-card">
           <img src="photo.jpg" alt="Nadia Ahmadian"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="photo-placeholder" style="display:none;">
-            <div class="photo-initials">NA</div>
+               onerror="this.style.display='none';document.getElementById('photo-fallback').style.display='flex';" />
+          <div id="photo-fallback" class="photo-fallback">NA</div>
+          <div class="photo-overlay">
+            <span class="photo-name">Nadia Ahmadian</span>
+            <span class="photo-role">Software Engineer</span>
+          </div>
+        </div>
+
+        <h1 class="hero-last">AHMADIAN</h1>
+      </div>
+    </div>
+
+    <div class="hero-meta hero-meta--right">
+      <span>iOS Developer · Piano Teacher</span>
+      <span id="live-clock">Vancouver, BC</span>
+    </div>
+
+    <a href="#skills" class="hero-scroll-hint" aria-label="Scroll to skills">
+      <span>scroll</span>
+      <svg width="14" height="22" viewBox="0 0 14 22" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="12" height="20" rx="6" stroke="currentColor" stroke-width="1.5"/>
+        <circle class="scroll-dot" cx="7" cy="6" r="2" fill="currentColor"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- BOTTOM NAV -->
+  <nav id="pill-nav" aria-label="Main navigation">
+    <a href="#hero" class="nav-home" aria-label="Home">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#riddles">Riddles</a>
+    <a href="#contact" class="nav-cta">Say hello →</a>
+  </nav>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="skills-inner">
+      <div class="skills-intro reveal">
+        <span class="section-label">/ Skills &amp; Expertise</span>
+        <h2 class="section-heading">I solve problems<br><em>through code.</em></h2>
+      </div>
+      <div class="skills-cols">
+        <div class="skills-left">
+
+          <div class="skill-card reveal" data-panel="fullstack">
+            <span class="card-tag">Web</span>
+            <h3>01. Full-Stack Development</h3>
+            <p>End-to-end web applications — from pixel-perfect React UIs to rock-solid Node.js backends and cloud deployments.</p>
+            <ul class="tech-list">
+              <li>React.js</li><li>Next.js</li><li>TypeScript</li>
+              <li>Node.js</li><li>Express</li><li>Material-UI</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal" data-panel="ios">
+            <span class="card-tag">Mobile</span>
+            <h3>02. iOS Development</h3>
+            <p>Production-grade iOS apps with Swift and SwiftUI — real-time sync, push notifications, and AI-assisted workflows.</p>
+            <ul class="tech-list">
+              <li>Swift</li><li>SwiftUI</li><li>Firebase</li>
+              <li>Core Data</li><li>CloudKit</li><li>OpenAI API</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal" data-panel="backend">
+            <span class="card-tag">Systems</span>
+            <h3>03. APIs &amp; Backend Systems</h3>
+            <p>Scalable RESTful services, event-driven workflows, secure auth, and high-performance database design.</p>
+            <ul class="tech-list">
+              <li>.NET Core</li><li>C#</li><li>PostgreSQL</li>
+              <li>MongoDB</li><li>SQL Server</li><li>JWT / RBAC</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal" data-panel="cloud">
+            <span class="card-tag">Cloud</span>
+            <h3>04. Cloud &amp; DevOps</h3>
+            <p>Production systems on AWS with Docker-based CI/CD, CloudWatch monitoring, and zero-downtime deployments.</p>
+            <ul class="tech-list">
+              <li>AWS EC2</li><li>AWS S3</li><li>Docker</li>
+              <li>CloudWatch</li><li>Nginx</li><li>CI/CD</li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="skills-right">
+          <div class="sticky-panel" id="sticky-panel">
+            <p class="panel-label" id="panel-label">Full-Stack</p>
+            <div class="panel-tags" id="panel-tags">
+              <span>React.js</span><span>Next.js</span><span>TypeScript</span>
+              <span>Node.js</span><span>Express</span><span>Material-UI</span>
+            </div>
+            <p class="panel-desc" id="panel-desc">Web · Frontend + Backend</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── SKILLS ─── -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-title reveal">
-      <span class="num">02.</span>
-      <h2>Skills &amp; Tech</h2>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card reveal reveal-delay-1">
-        <div class="skill-card-title"><span class="icon">🖥️</span> Frontend &amp; Mobile</div>
-        <div class="skill-tags">
-          <span class="skill-tag">React.js</span>
-          <span class="skill-tag">Next.js</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">JavaScript ES6+</span>
-          <span class="skill-tag">Material-UI</span>
-          <span class="skill-tag">Swift</span>
-          <span class="skill-tag">SwiftUI</span>
-        </div>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <div class="reveal">
+        <span class="section-label">/ Work History</span>
+        <h2 class="section-heading">Where I've<br><em>made an impact.</em></h2>
       </div>
-      <div class="skill-card reveal reveal-delay-2">
-        <div class="skill-card-title"><span class="icon">⚙️</span> Backend &amp; APIs</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">Express.js</span>
-          <span class="skill-tag">.NET Core</span>
-          <span class="skill-tag">C#</span>
-          <span class="skill-tag">PHP</span>
-          <span class="skill-tag">REST APIs</span>
-          <span class="skill-tag">JWT / RBAC</span>
-        </div>
-      </div>
-      <div class="skill-card reveal reveal-delay-3">
-        <div class="skill-card-title"><span class="icon">🗄️</span> Databases</div>
-        <div class="skill-tags">
-          <span class="skill-tag">SQL Server</span>
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">MySQL</span>
-          <span class="skill-tag">MongoDB</span>
-          <span class="skill-tag">Firebase</span>
-          <span class="skill-tag">DynamoDB</span>
-          <span class="skill-tag">Core Data</span>
-        </div>
-      </div>
-      <div class="skill-card reveal reveal-delay-4">
-        <div class="skill-card-title"><span class="icon">☁️</span> Cloud &amp; DevOps</div>
-        <div class="skill-tags">
-          <span class="skill-tag">AWS EC2</span>
-          <span class="skill-tag">AWS S3</span>
-          <span class="skill-tag">CloudWatch</span>
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">CI/CD</span>
-          <span class="skill-tag">Nginx</span>
-          <span class="skill-tag">Apache</span>
-        </div>
-      </div>
-      <div class="skill-card reveal reveal-delay-5">
-        <div class="skill-card-title"><span class="icon">🔧</span> Tools &amp; Practices</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Git / GitHub</span>
-          <span class="skill-tag">Xcode</span>
-          <span class="skill-tag">Jest</span>
-          <span class="skill-tag">MVC / MVVM</span>
-          <span class="skill-tag">API Rate Limiting</span>
-          <span class="skill-tag">OpenAI API</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="exp-list">
 
-<!-- ─── EXPERIENCE ─── -->
-<section id="experience">
-  <div class="section-inner">
-    <div class="section-title reveal">
-      <span class="num">03.</span>
-      <h2>Experience</h2>
-    </div>
-    <div class="exp-tabs reveal">
-      <ul class="exp-tab-list">
-        <li><button class="exp-tab active" data-tab="ashna">Ashna Software</button></li>
-        <li><button class="exp-tab" data-tab="que">Que Gallery</button></li>
-        <li><button class="exp-tab" data-tab="bahara">Bahara Bakery</button></li>
-      </ul>
-      <div class="exp-panels">
-        <!-- Ashna -->
-        <div class="exp-panel active" id="tab-ashna">
-          <p class="exp-role">Full-Stack Developer <span>@ Ashna Software</span></p>
-          <p class="exp-meta">Jun 2022 – Oct 2025 · Full-Time · Vancouver, BC</p>
+        <div class="exp-item reveal">
+          <div class="exp-header">
+            <div class="exp-title-group">
+              <h3>Full-Stack Developer</h3>
+              <span class="exp-company">@ Ashna Software</span>
+            </div>
+            <div class="exp-meta-group">
+              <span class="exp-badge">Full-Time</span>
+              <span class="exp-date">Jun 2022 — Oct 2025</span>
+            </div>
+          </div>
           <ul class="exp-bullets">
-            <li>Designed and built a real-time guard tour management system integrating NFC, BLE, QR codes, and GPS — enabling live patrol tracking, incident reporting, and operational analytics.</li>
-            <li>Developed RESTful backend services in Node.js, Express.js, .NET Core and C#, with SQL Server for operational data and MongoDB for high-volume event logs.</li>
-            <li>Implemented event-driven workflows for patrol validation, incident detection, scheduling automation, and anomaly detection.</li>
-            <li>Built an enterprise facility and employee management platform featuring multi-step approval workflows, reservation management, and configurable payment policies.</li>
-            <li>Developed responsive React frontends with Material-UI; deployed services on AWS (EC2, S3) with CloudWatch monitoring and Docker-based CI/CD pipelines.</li>
+            <li>Designed and built a real-time guard tour system integrating NFC, BLE, QR codes, and GPS — live patrol tracking, incident reporting, and analytics.</li>
+            <li>Developed RESTful services in Node.js, Express, .NET Core, and C#; SQL Server for operations, MongoDB for high-volume event logs.</li>
+            <li>Built an enterprise facility management platform with multi-step approval workflows, reservation management, and configurable payment policies.</li>
+            <li>Deployed on AWS (EC2, S3) with CloudWatch monitoring and Docker-based CI/CD pipelines.</li>
           </ul>
         </div>
-        <!-- Que Gallery -->
-        <div class="exp-panel" id="tab-que">
-          <p class="exp-role">Full-Stack Developer <span>@ Que Gallery</span></p>
-          <p class="exp-meta">Feb 2024 – Aug 2024 · Contract</p>
+
+        <div class="exp-item reveal">
+          <div class="exp-header">
+            <div class="exp-title-group">
+              <h3>Full-Stack Developer</h3>
+              <span class="exp-company">@ Que Gallery</span>
+            </div>
+            <div class="exp-meta-group">
+              <span class="exp-badge">Contract</span>
+              <span class="exp-date">Feb 2024 — Aug 2024</span>
+            </div>
+          </div>
           <ul class="exp-bullets">
-            <li>Designed and built an inventory and sales management platform for art galleries — enabling real-time tracking of inventory, sales status, payments, returns, and stakeholder balances.</li>
-            <li>Implemented revenue distribution and receipt management logic, ensuring accurate financial tracking across multiple parties.</li>
-            <li>Built RESTful backend services with Node.js and PostgreSQL; developed a responsive React + Material-UI frontend.</li>
-            <li>Reimplemented the full system in PHP and MySQL per evolving client requirements, adapting all APIs and database schemas while preserving business rules.</li>
+            <li>Built an inventory and sales management platform for art galleries — real-time tracking of sales, payments, returns, and stakeholder balances.</li>
+            <li>Implemented revenue distribution logic with Node.js + PostgreSQL; later reimplemented in PHP + MySQL per client requirements.</li>
           </ul>
         </div>
-        <!-- Bahara -->
-        <div class="exp-panel" id="tab-bahara">
-          <p class="exp-role">iOS Developer <span>@ Bahara Bakery</span></p>
-          <p class="exp-meta">Sep 2024 – Dec 2024 · Contract</p>
+
+        <div class="exp-item reveal">
+          <div class="exp-header">
+            <div class="exp-title-group">
+              <h3>iOS Developer</h3>
+              <span class="exp-company">@ Bahara Bakery</span>
+            </div>
+            <div class="exp-meta-group">
+              <span class="exp-badge">Contract</span>
+              <span class="exp-date">Sep 2024 — Dec 2024</span>
+            </div>
+          </div>
           <ul class="exp-bullets">
-            <li>Developed a production iOS app using Swift and SwiftUI, enabling product browsing, guided tutorials, and pre-order scheduling through a structured mobile workflow.</li>
-            <li>Implemented AI-assisted custom order submission using the OpenAI API, integrating approval workflows and date/time-based scheduling.</li>
-            <li>Designed a cloud-backed mobile architecture with Firebase, Core Data, and CloudKit — supporting real-time order status, push notifications, and cross-device sync.</li>
+            <li>Built a production iOS app in Swift and SwiftUI — product browsing, guided tutorials, and pre-order scheduling.</li>
+            <li>Integrated OpenAI API for AI-assisted custom orders and designed a Firebase + Core Data + CloudKit cloud architecture.</li>
           </ul>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ─── BEYOND THE CODE ─── -->
-<section id="beyond">
-  <div class="section-inner">
-    <div class="section-title reveal">
-      <span class="num">04.</span>
-      <h2>Beyond the Code</h2>
-    </div>
-    <div class="beyond-grid">
-      <div class="beyond-card reveal reveal-delay-1" data-emoji="🎹">
-        <div class="beyond-emoji">🎹</div>
-        <h3 class="beyond-title">Piano</h3>
-        <p class="beyond-desc">
-          I've played piano for years and love teaching others how to play. Music is my creative outlet —
-          the structured logic of learning scales isn't too different from learning to code.
-          <br /><br />
-          <em style="color: var(--accent); font-size:.8rem;">Psst — click the 🎹 button in the corner!</em>
-        </p>
-      </div>
-      <div class="beyond-card reveal reveal-delay-2" data-emoji="🎮">
-        <div class="beyond-emoji">🎮</div>
-        <h3 class="beyond-title">Gaming</h3>
-        <p class="beyond-desc">
-          Games have been a love since childhood — I appreciate the craft that goes into building
-          immersive, responsive experiences. It's inspired how I think about UX and real-time systems in my own work.
-        </p>
-      </div>
-      <div class="beyond-card reveal reveal-delay-3" data-emoji="🏸">
-        <div class="beyond-emoji">🏸</div>
-        <h3 class="beyond-title">Badminton</h3>
-        <p class="beyond-desc">
-          Fast reflexes, strategy, and staying sharp under pressure — badminton keeps me grounded and competitive.
-          A great reminder that performance matters both on the court and in production.
-        </p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── CONTACT ─── -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="contact-inner">
-      <p class="contact-overline reveal">05. What's next?</p>
-      <h2 class="contact-title reveal reveal-delay-1">Get In Touch</h2>
-      <p class="contact-desc reveal reveal-delay-2">
-        I'm currently open to new opportunities. Whether you have a question, a project idea,
-        or just want to say hi — my inbox is always open.
-      </p>
-      <a href="mailto:nadia.ahmadian96@yahoo.com" class="btn btn-outline reveal reveal-delay-3">
-        Say Hello
-      </a>
-      <div class="contact-links reveal reveal-delay-4">
-        <a href="https://github.com/nadiaahmadian96" target="_blank" rel="noopener" class="contact-link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+  <!-- RIDDLES -->
+  <section id="riddles">
+    <div class="section-inner">
+      <div class="reveal">
+        <span class="section-label">/ A Challenge For You</span>
+        <h2 class="section-heading riddles-heading">Think you<br><em>know me?</em></h2>
+        <p class="riddles-intro">Three riddles. Three parts of who I am. Solve them all to unlock something special.</p>
+      </div>
+      <div class="riddles-grid">
+
+        <div class="riddle-card reveal" data-answer="git" data-id="0">
+          <div class="riddle-icon">🌿</div>
+          <p class="riddle-q">I have branches but no leaves, commits but no regrets, and a HEAD that moves with every change. What am I?</p>
+          <div class="riddle-input-row">
+            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
+            <button class="riddle-submit" aria-label="Submit answer">→</button>
+          </div>
+          <p class="riddle-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="riddle-card reveal" data-answer="piano" data-id="1">
+          <div class="riddle-icon">🎹</div>
+          <p class="riddle-q">I have 88 voices but speak only when touched. I cry in minor and laugh in major. I live between your hands. What am I?</p>
+          <div class="riddle-input-row">
+            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
+            <button class="riddle-submit" aria-label="Submit answer">→</button>
+          </div>
+          <p class="riddle-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="riddle-card reveal" data-answer="game" data-id="2">
+          <div class="riddle-icon">🎮</div>
+          <p class="riddle-q">In my world, death is just a checkpoint. I give you quests but no destination. I have a final boss, but you never truly finish. What am I?</p>
+          <div class="riddle-input-row">
+            <input type="text" class="riddle-input" placeholder="Your answer…" autocomplete="off" />
+            <button class="riddle-submit" aria-label="Submit answer">→</button>
+          </div>
+          <p class="riddle-feedback" aria-live="polite"></p>
+        </div>
+
+      </div>
+      <div class="riddle-unlock" id="riddle-unlock" aria-hidden="true">
+        <p>🎉 You know me well! Open the <strong>🎹 piano</strong> in the corner and play <strong>C → E → G</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner contact-center">
+      <div class="reveal">
+        <span class="section-label">/ Get In Touch</span>
+        <h2 class="contact-heading">Let's build<br>something <em>together.</em></h2>
+        <p class="contact-sub">Open to new roles, contracts, and collaborations.</p>
+        <a href="mailto:nadia.ahmadian96@yahoo.com" class="contact-email-btn">nadia.ahmadian96@yahoo.com</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="https://github.com/nadiaahmadian96" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
           GitHub
         </a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <a href="https://linkedin.com" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           LinkedIn
         </a>
-        <a href="tel:+12368188838" class="contact-link">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.12 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +1 (236) 818-8838
-        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <p>Designed &amp; Built by <a href="https://github.com/nadiaahmadian96">Nadia Ahmadian</a></p>
-</footer>
+  <footer>
+    <p>Designed &amp; Built by Nadia Ahmadian · <span id="footer-year"></span></p>
+  </footer>
 
-<!-- ─── PIANO BUTTON ─── -->
-<button id="piano-btn" aria-label="Open piano easter egg" title="Shhh 🎹">🎹</button>
+  <!-- PIANO BUTTON -->
+  <button id="piano-btn" aria-label="Open mini piano" title="Psst… 🎹">🎹</button>
 
-<!-- ─── PIANO MODAL ─── -->
-<div id="piano-modal" role="dialog" aria-modal="true" aria-label="Mini Piano">
-  <div class="piano-box">
-    <div class="piano-header">
-      <div>
-        <div class="piano-title">🎹 Mini Piano</div>
-        <div class="piano-subtitle">You found it! Click keys or use your keyboard.</div>
+  <!-- PIANO MODAL -->
+  <div id="piano-modal" role="dialog" aria-modal="true" aria-label="Mini Piano">
+    <div class="piano-box">
+      <div class="piano-header">
+        <div>
+          <p class="piano-title">🎹 Mini Piano</p>
+          <p class="piano-subtitle">Click keys or use your keyboard.</p>
+        </div>
+        <button id="piano-close" class="piano-close" aria-label="Close piano">✕</button>
       </div>
-      <button class="piano-close" id="piano-close" aria-label="Close piano">✕</button>
+      <div class="piano-keys" id="piano-keys"></div>
+      <p class="piano-hint">
+        White: <span>A S D F G H J K L</span> &nbsp;·&nbsp; Black: <span>W E T Y U O P</span>
+      </p>
     </div>
-    <div class="piano-keys" id="piano-keys"></div>
-    <p class="piano-hint">
-      Keys: <span>A S D F G H J K L</span> (white) &nbsp;|&nbsp;
-      <span>W E T Y U O P</span> (black)
-    </p>
   </div>
-</div>
 
-<script>
-/* ═══════════════════════════════════════════════
-   LOADER
-═══════════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-  }, 1500);
-});
-
-/* ═══════════════════════════════════════════════
-   CUSTOM CURSOR
-═══════════════════════════════════════════════ */
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let ringX = 0, ringY = 0, dotX = 0, dotY = 0;
-
-document.addEventListener('mousemove', e => {
-  dotX = e.clientX; dotY = e.clientY;
-  dot.style.left  = dotX + 'px';
-  dot.style.top   = dotY + 'px';
-});
-
-(function animateRing() {
-  ringX += (dotX - ringX) * 0.12;
-  ringY += (dotY - ringY) * 0.12;
-  ring.style.left = ringX + 'px';
-  ring.style.top  = ringY + 'px';
-  requestAnimationFrame(animateRing);
-})();
-
-document.querySelectorAll('a, button, .skill-card, .beyond-card, .exp-tab, .key-white, .key-black, .hobby-pill').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-});
-
-/* ═══════════════════════════════════════════════
-   PARTICLES CANVAS
-═══════════════════════════════════════════════ */
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [], mouse = { x: null, y: null };
-
-function resizeCanvas() {
-  canvas.width  = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-canvas.addEventListener('mousemove', e => {
-  const rect = canvas.getBoundingClientRect();
-  mouse.x = e.clientX - rect.left;
-  mouse.y = e.clientY - rect.top;
-});
-
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x  = Math.random() * canvas.width;
-    this.y  = Math.random() * canvas.height;
-    this.vx = (Math.random() - .5) * .4;
-    this.vy = (Math.random() - .5) * .4;
-    this.r  = Math.random() * 1.5 + .5;
-    this.alpha = Math.random() * .4 + .1;
-  }
-  update() {
-    this.x += this.vx; this.y += this.vy;
-    if (this.x < 0 || this.x > canvas.width)  this.vx *= -1;
-    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-    // mouse repel
-    if (mouse.x) {
-      const dx = this.x - mouse.x, dy = this.y - mouse.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 100) {
-        this.x += dx / dist * 1.2;
-        this.y += dy / dist * 1.2;
-      }
-    }
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(100,255,218,${this.alpha})`;
-    ctx.fill();
-  }
-}
-
-for (let i = 0; i < 90; i++) particles.push(new Particle());
-
-function drawLines() {
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < 120) {
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(100,255,218,${.06 * (1 - d/120)})`;
-        ctx.lineWidth = .5;
-        ctx.stroke();
-      }
-    }
-  }
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  drawLines();
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-/* ═══════════════════════════════════════════════
-   TYPING ANIMATION
-═══════════════════════════════════════════════ */
-const phrases = [
-  'build full-stack web apps.',
-  'develop iOS applications.',
-  'teach piano 🎹',
-  'love gaming 🎮',
-  'play badminton 🏸',
-  'craft clean APIs.',
-  'ship to production.',
-];
-let phraseIndex = 0, charIndex = 0, deleting = false;
-const typedEl = document.getElementById('typed-text');
-
-function typeLoop() {
-  const current = phrases[phraseIndex];
-  if (!deleting) {
-    typedEl.textContent = current.slice(0, charIndex + 1);
-    charIndex++;
-    if (charIndex === current.length) {
-      deleting = true;
-      setTimeout(typeLoop, 1800);
-      return;
-    }
-    setTimeout(typeLoop, 60);
-  } else {
-    typedEl.textContent = current.slice(0, charIndex - 1);
-    charIndex--;
-    if (charIndex === 0) {
-      deleting = false;
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-      setTimeout(typeLoop, 300);
-      return;
-    }
-    setTimeout(typeLoop, 35);
-  }
-}
-setTimeout(typeLoop, 2000);
-
-/* ═══════════════════════════════════════════════
-   NAVIGATION – scroll & mobile
-═══════════════════════════════════════════════ */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 20);
-  // active link
-  const sections = ['about','skills','experience','beyond','contact'];
-  let active = '';
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 120) active = id;
-  });
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + active);
-  });
-});
-
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobile-nav');
-hamburger.addEventListener('click', () => {
-  const isOpen = mobileNav.classList.toggle('open');
-  hamburger.classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-});
-document.querySelectorAll('.mob-link').forEach(a => {
-  a.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    hamburger.classList.remove('open');
-    document.body.style.overflow = '';
-  });
-});
-
-/* ═══════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════ */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: .12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-/* ═══════════════════════════════════════════════
-   EXPERIENCE TABS
-═══════════════════════════════════════════════ */
-document.querySelectorAll('.exp-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.exp-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-  });
-});
-
-/* ═══════════════════════════════════════════════
-   PIANO EASTER EGG
-═══════════════════════════════════════════════ */
-let audioCtx = null;
-function getAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-
-function playNote(freq) {
-  const ac = getAudio();
-  const osc1 = ac.createOscillator();
-  const osc2 = ac.createOscillator();
-  const osc3 = ac.createOscillator();
-  const env  = ac.createGain();
-  const master = ac.createGain();
-  master.gain.value = 0.22;
-  osc1.type = 'triangle';  osc1.frequency.value = freq;
-  osc2.type = 'sine';      osc2.frequency.value = freq * 2;
-  osc3.type = 'sine';      osc3.frequency.value = freq * 3;
-  [osc1,osc2,osc3].forEach(o => o.connect(env));
-  env.connect(master); master.connect(ac.destination);
-  env.gain.setValueAtTime(0, ac.currentTime);
-  env.gain.linearRampToValueAtTime(0.9, ac.currentTime + 0.008);
-  env.gain.exponentialRampToValueAtTime(0.4, ac.currentTime + 0.1);
-  env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 1.8);
-  osc1.start(ac.currentTime); osc2.start(ac.currentTime); osc3.start(ac.currentTime);
-  osc1.stop(ac.currentTime + 1.8); osc2.stop(ac.currentTime + 1.8); osc3.stop(ac.currentTime + 1.8);
-}
-
-// Two octaves: C4–B5
-const noteData = [
-  // Octave 4
-  { note:'C4',  freq:261.63, type:'white', kbd:'A' },
-  { note:'C#4', freq:277.18, type:'black', kbd:'W' },
-  { note:'D4',  freq:293.66, type:'white', kbd:'S' },
-  { note:'D#4', freq:311.13, type:'black', kbd:'E' },
-  { note:'E4',  freq:329.63, type:'white', kbd:'D' },
-  { note:'F4',  freq:349.23, type:'white', kbd:'F' },
-  { note:'F#4', freq:369.99, type:'black', kbd:'T' },
-  { note:'G4',  freq:392.00, type:'white', kbd:'G' },
-  { note:'G#4', freq:415.30, type:'black', kbd:'Y' },
-  { note:'A4',  freq:440.00, type:'white', kbd:'H' },
-  { note:'A#4', freq:466.16, type:'black', kbd:'U' },
-  { note:'B4',  freq:493.88, type:'white', kbd:'J' },
-  // Octave 5
-  { note:'C5',  freq:523.25, type:'white', kbd:'K' },
-  { note:'C#5', freq:554.37, type:'black', kbd:'O' },
-  { note:'D5',  freq:587.33, type:'white', kbd:'L' },
-  { note:'D#5', freq:622.25, type:'black', kbd:'P' },
-  { note:'E5',  freq:659.25, type:'white', kbd:';' },
-];
-
-const keysContainer = document.getElementById('piano-keys');
-const whiteNotes = noteData.filter(n => n.type === 'white');
-const blackNotes = noteData.filter(n => n.type === 'black');
-
-// Build white keys
-whiteNotes.forEach((n, i) => {
-  const el = document.createElement('div');
-  el.className = 'key-white';
-  el.dataset.freq = n.freq;
-  el.dataset.note = n.note;
-  el.innerHTML = `<span>${n.kbd}</span>`;
-  el.addEventListener('mousedown', () => { playNote(n.freq); el.classList.add('pressed'); });
-  el.addEventListener('mouseup', () => el.classList.remove('pressed'));
-  el.addEventListener('mouseleave', () => el.classList.remove('pressed'));
-  keysContainer.appendChild(el);
-});
-
-// Build black keys (positioned via CSS left % per white-key slot)
-const blackPositions = { 'C#':1, 'D#':2, 'F#':4, 'G#':5, 'A#':6 };
-const octaveOffset = { 4: 0, 5: 7 };
-const totalWhite = whiteNotes.length;
-
-blackNotes.forEach(n => {
-  const noteName = n.note.replace(/\d/,'');
-  const oct = parseInt(n.note.slice(-1));
-  const pos = blackPositions[noteName] + octaveOffset[oct];
-  const el = document.createElement('div');
-  el.className = 'key-black';
-  el.dataset.freq = n.freq;
-  el.style.left = ((pos / totalWhite) * 100 - (0.62 / totalWhite / 2 * 100) - 1.2) + '%';
-  el.innerHTML = `<span>${n.kbd}</span>`;
-  el.addEventListener('mousedown', e => { e.stopPropagation(); playNote(n.freq); el.classList.add('pressed'); });
-  el.addEventListener('mouseup', () => el.classList.remove('pressed'));
-  el.addEventListener('mouseleave', () => el.classList.remove('pressed'));
-  keysContainer.appendChild(el);
-});
-
-// Keyboard input for piano
-const kbdMap = {};
-noteData.forEach(n => { kbdMap[n.kbd.toLowerCase()] = n; });
-
-document.addEventListener('keydown', e => {
-  if (e.repeat) return;
-  const n = kbdMap[e.key.toLowerCase()];
-  if (n) {
-    playNote(n.freq);
-    const el = keysContainer.querySelector(`[data-note="${n.note}"]`);
-    if (el) { el.classList.add('pressed'); setTimeout(() => el.classList.remove('pressed'), 300); }
-  }
-  if (e.key === 'Escape') closePiano();
-});
-
-// Modal open/close
-const pianoModal = document.getElementById('piano-modal');
-document.getElementById('piano-btn').addEventListener('click', () => {
-  pianoModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-});
-document.getElementById('piano-close').addEventListener('click', closePiano);
-pianoModal.addEventListener('click', e => { if (e.target === pianoModal) closePiano(); });
-function closePiano() {
-  pianoModal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-</script>
+  <script src="js/cursor.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/riddles.js"></script>
+  <script src="js/piano.js"></script>
 </body>
 </html>

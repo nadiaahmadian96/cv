@@ -1,0 +1,150 @@
+/* game.css — Breakout mini-game modal */
+
+/* ─── Backdrop ─── */
+#game-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-modal.open {
+  display: flex;
+}
+
+/* ─── Game box ─── */
+.game-box {
+  background: #0d0d0d;
+  border: 1.5px solid rgba(0, 200, 150, 0.3);
+  border-radius: 16px;
+  padding: 1.4rem 1.4rem 1.2rem;
+  max-width: 96vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow:
+    0 0 60px rgba(0, 200, 150, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+/* ─── Title bar ─── */
+.game-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.game-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#game-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.2rem;
+  transition: color 0.2s;
+}
+
+#game-close:hover { color: #fff; }
+
+/* ─── Canvas ─── */
+#game-canvas {
+  display: block;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #000;
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  cursor: none;
+}
+
+/* ─── HUD row ─── */
+.game-hud {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-hud-stat {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.game-hud-stat strong {
+  color: #fff;
+  font-size: 0.82rem;
+}
+
+/* Lives as hearts */
+.game-lives {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.game-heart {
+  font-size: 0.85rem;
+  transition: opacity 0.3s;
+}
+
+.game-heart.lost {
+  opacity: 0.18;
+}
+
+/* ─── Restart button ─── */
+#game-restart {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45em 1.1em;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+#game-restart:hover {
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
+#game-restart.visible {
+  display: inline-block;
+}
+
+/* ─── Mobile hint ─── */
+.game-mobile-hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+}
+
+@media (min-width: 500px) {
+  .game-mobile-hint { display: none; }
+}

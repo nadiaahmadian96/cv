@@ -15,12 +15,38 @@
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/riddles.css" />
   <link rel="stylesheet" href="css/piano.css" />
+  <link rel="stylesheet" href="css/floatingcard.css" />
+  <link rel="stylesheet" href="css/game.css" />
 </head>
 <body>
+
+  <!-- HEX CANVAS BACKGROUND -->
+  <canvas id="hex-canvas" aria-hidden="true"></canvas>
 
   <!-- CURSOR -->
   <div id="cursor-dot"  aria-hidden="true"></div>
   <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- FLOATING CARD -->
+  <div id="floating-card" aria-hidden="true">
+    <div class="fcard-inner" id="fcard-inner">
+      <div class="fcard-front">
+        <img src="photo.jpg" alt="Nadia Ahmadian"
+             onerror="this.style.display='none';document.getElementById('fcard-fallback').style.display='flex';" />
+        <div id="fcard-fallback" class="fcard-fallback">NA</div>
+        <div class="fcard-front-overlay">
+          <span>Nadia Ahmadian</span>
+          <span>Software Engineer</span>
+        </div>
+      </div>
+      <div class="fcard-back">
+        <div id="fcard-back-content">
+          <div class="fback-title" style="color:var(--accent)">Full-Stack</div>
+          <div class="fback-lines"><div>React · Node.js</div><div>Swift · AWS</div><div>TypeScript</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- LOADER -->
   <div id="loader" aria-hidden="true">
@@ -286,6 +312,30 @@
     <p>Designed &amp; Built by Nadia Ahmadian · <span id="footer-year"></span></p>
   </footer>
 
+  <!-- GAME MODAL -->
+  <div id="game-modal" role="dialog" aria-modal="true" aria-label="Mini Breakout Game">
+    <div class="game-box">
+      <div class="game-title-bar">
+        <span class="game-title">🎮 Pixel Breaker</span>
+        <button id="game-close" aria-label="Close game">✕</button>
+      </div>
+      <canvas id="game-canvas" width="420" height="280"></canvas>
+      <div class="game-hud">
+        <div class="game-hud-stat">Score <strong id="game-score">0</strong></div>
+        <button id="game-restart">↺ Restart</button>
+        <div class="game-hud-stat">
+          Lives
+          <div class="game-lives" id="game-lives">
+            <span class="game-heart">❤️</span>
+            <span class="game-heart">❤️</span>
+            <span class="game-heart">❤️</span>
+          </div>
+        </div>
+      </div>
+      <p class="game-mobile-hint">Tap &amp; drag to move paddle</p>
+    </div>
+  </div>
+
   <!-- PIANO BUTTON -->
   <button id="piano-btn" aria-label="Open mini piano" title="Psst… 🎹">🎹</button>
 
@@ -311,7 +361,10 @@
   <script src="js/hero.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/scroll.js"></script>
-  <script src="js/riddles.js"></script>
+  <script src="js/hexbg.js"></script>
+  <script src="js/floatingcard.js"></script>
   <script src="js/piano.js"></script>
+  <script src="js/minigame.js"></script>
+  <script src="js/riddles.js"></script>
 </body>
 </html>

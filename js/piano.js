@@ -7,6 +7,12 @@
   const keysEl = document.getElementById('piano-keys');
   if (!btn || !modal || !keysEl) return;
 
+  /* ─── Expose globals for riddles.js ─── */
+  window.openPiano = function () {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
   /* ─── Audio ─── */
   let audioCtx = null;
   function getCtx() {
@@ -41,6 +47,9 @@
 
     oscs.forEach(o => { o.start(ac.currentTime); o.stop(ac.currentTime + 1.8); });
   }
+
+  /* expose for riddles.js */
+  window.pianoPlayNote = playNote;
 
   /* ─── Note data ─── */
   const notes = [

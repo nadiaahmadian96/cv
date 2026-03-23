@@ -1,0 +1,179 @@
+/* floatingcard.css — scroll-reactive 3-D flip card */
+
+/* ─── Hidden on small screens ─── */
+#floating-card {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+
+  #floating-card {
+    display: block;
+    position: fixed;
+    right: 2.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 170px;
+    height: 230px;
+    perspective: 900px;
+    z-index: 60;
+    pointer-events: none;   /* let clicks pass through */
+  }
+
+  /* ─── Inner wrapper (the thing that flips) ─── */
+  .fcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.72s cubic-bezier(0.45, 0.05, 0.20, 1.00);
+    border-radius: 18px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.14),
+      0 2px  8px rgba(0,0,0,0.08);
+  }
+
+  .fcard-inner.flipped {
+    transform: rotateY(180deg);
+  }
+
+  /* ─── Shared face rules ─── */
+  .fcard-front,
+  .fcard-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+
+  /* ─── FRONT — photo side ─── */
+  .fcard-front {
+    background: var(--bg-dark);
+  }
+
+  .fcard-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+    border-radius: 18px;
+  }
+
+  /* Gradient overlay at bottom */
+  .fcard-front::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 55%,
+      rgba(0,0,0,0.60) 100%
+    );
+    border-radius: 18px;
+  }
+
+  /* front overlay / label — matches .fcard-front-label and .fcard-front-overlay */
+  .fcard-front-label,
+  .fcard-front-overlay {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .fcard-front-overlay span:first-child {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  .fcard-front-overlay span:last-child {
+    font-family: var(--font-hand);
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+
+  /* Photo fallback */
+  .fcard-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--bg-dark);
+    border-radius: 18px;
+  }
+
+  /* ─── BACK — info side ─── */
+  .fcard-back {
+    background: var(--bg-dark);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1rem;
+    border: 1.5px solid rgba(0, 200, 150, 0.25);
+  }
+
+  #fcard-back-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .fcard-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .fcard-back-title {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .fcard-back-lines {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .fcard-back-lines li {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ─── Subtle idle bob animation ─── */
+  @keyframes cardBob {
+    0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08); }
+    50%       { box-shadow: 0 16px 48px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.10); }
+  }
+
+  .fcard-inner {
+    animation: cardBob 4s ease-in-out infinite;
+  }
+
+} /* end @media */

@@ -38,7 +38,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.65;
-  overflow-x: hidden;
+  overflow-x: clip;   /* clip ≠ hidden: no scroll container, sticky still works */
   -webkit-font-smoothing: antialiased;
 }
 ul  { list-style: none; }

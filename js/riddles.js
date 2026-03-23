@@ -9,6 +9,7 @@
     git:   ['Think version control…', 'It lives in your terminal 💻', 'Hint: it starts with "g"'],
     piano: ['It has keys but not on a keyboard…', 'Think music 🎵', 'Hint: 88 keys'],
     game:  ['Think entertainment 🕹️', 'It has levels and lives…', 'Hint: two syllables'],
+    anime: ['Think Japanese animation 🇯🇵', 'Sub or dub — a matter of honour…', 'Hint: it ends in "e"'],
   };
   const hintCount = {};
 
@@ -25,7 +26,8 @@
       const val = input.value.trim().toLowerCase();
       if (!val) return;
 
-      const accepted = [answer, 'a ' + answer, 'video game', 'video games', 'games'];
+      const accepted = [answer, 'a ' + answer, 'video game', 'video games', 'games',
+                        'japanese animation', 'animation', 'japanese anime'];
 
       if (accepted.includes(val) || val === answer) {
         fb.textContent = '✓ Correct!';
@@ -139,11 +141,79 @@
     }
   }
 
+  /* ════════════════════════════════════
+     PRIZE 4: anime → floating sakura + quote
+  ════════════════════════════════════ */
+  function prizeAnime() {
+    const EMOJIS  = ['🌸','⚔️','🔥','💫','🌊','🎌','🌙','⛩️','🐉','✨'];
+    const QUOTE   = '"If you don\'t take risks, you can\'t create a future."';
+    const ATTR    = '— Monkey D. Luffy';
+
+    /* Floating emoji burst */
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      el.style.cssText = [
+        'position:fixed',
+        `left:${20 + Math.random() * 60}vw`,
+        `top:${60 + Math.random() * 30}vh`,
+        'font-size:' + (1.2 + Math.random() * 1.4) + 'rem',
+        'pointer-events:none',
+        'z-index:9998',
+        'animation:sakuraFloat ' + (1.8 + Math.random() * 1.5) + 's ease-out forwards',
+        'animation-delay:' + (Math.random() * 0.6) + 's',
+      ].join(';');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+
+    /* Anime quote toast */
+    const toast = document.createElement('div');
+    toast.style.cssText = [
+      'position:fixed', 'bottom:5rem', 'left:50%',
+      'transform:translateX(-50%)',
+      'background:rgba(7,7,15,0.96)',
+      'border:1.5px solid rgba(233,30,140,0.4)',
+      'border-radius:12px',
+      'padding:1rem 1.5rem',
+      'text-align:center',
+      'z-index:9997',
+      'max-width:340px',
+      'box-shadow:0 0 32px rgba(233,30,140,0.18)',
+      'animation:toastIn 0.4s ease',
+    ].join(';');
+    toast.innerHTML = `
+      <div style="font-size:1.4rem;margin-bottom:.4rem">🎌</div>
+      <p style="font-style:italic;color:#ede8ff;font-size:.82rem;line-height:1.5">${QUOTE}</p>
+      <p style="font-family:'Fira Code',monospace;font-size:.68rem;color:#e91e8c;margin-top:.4rem">${ATTR}</p>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.animation = 'toastOut 0.4s ease forwards';
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+
+    /* Inject keyframes once */
+    if (!document.getElementById('anime-prize-styles')) {
+      const s = document.createElement('style');
+      s.id = 'anime-prize-styles';
+      s.textContent = `
+        @keyframes sakuraFloat {
+          0%   { opacity:1; transform: translateY(0) rotate(0deg); }
+          100% { opacity:0; transform: translateY(-80px) rotate(360deg); }
+        }
+        @keyframes toastIn  { from { opacity:0; transform:translateX(-50%) translateY(16px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateX(-50%) translateY(8px); } }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
   /* ─── Dispatcher ─── */
   function awardPrize(answer) {
     if (answer === 'git')   return prizeConfetti();
     if (answer === 'piano') return prizePiano();
     if (answer === 'game')  return prizeGame();
+    if (answer === 'anime') return prizeAnime();
   }
 
   /* ─── All solved ─── */

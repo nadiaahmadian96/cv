@@ -1,0 +1,148 @@
+/* ═══════════════════════════════════════════
+   SKILLS — 2×2 tilt card grid
+═══════════════════════════════════════════ */
+
+#skills {
+  padding: 80px 0;
+}
+
+.skills-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+}
+
+.skills-intro { margin-bottom: 3rem; }
+
+/* ─── Grid ─── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+/* ─── Card shell (perspective host) ─── */
+.sg-card {
+  perspective: 900px;
+}
+
+/* ─── Card face ─── */
+.sg-card-inner {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 2.2rem 2.4rem 2rem;
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  /* transition is managed by JS during enter/leave */
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.sg-card:hover .sg-card-inner {
+  border-color: color-mix(in srgb, var(--clr) 40%, transparent);
+  box-shadow: 0 16px 60px color-mix(in srgb, var(--clr) 18%, transparent);
+}
+
+/* ─── Large ghost number ─── */
+.sg-num {
+  position: absolute;
+  top: -0.6rem;
+  right: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 7rem;
+  font-weight: 900;
+  color: var(--clr);
+  opacity: 0.055;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.35s ease;
+}
+
+.sg-card:hover .sg-num {
+  opacity: 0.13;
+}
+
+/* ─── Badge + title ─── */
+.sg-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr);
+  background: color-mix(in srgb, var(--clr) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--clr) 28%, transparent);
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  margin-bottom: 0.55rem;
+}
+
+.sg-header { margin-bottom: 0.85rem; }
+
+.sg-card-inner h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.sg-card-inner p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.72;
+  margin-bottom: 1.4rem;
+}
+
+/* ─── Tech tags ─── */
+.sg-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.sg-tech li {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--clr);
+  background: color-mix(in srgb, var(--clr) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--clr) 20%, transparent);
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+  /* stagger-in animation — triggered when .sg-visible added by JS */
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity    0.35s ease calc(var(--i) * 55ms),
+    transform  0.35s ease calc(var(--i) * 55ms),
+    background 0.2s  ease,
+    border-color 0.2s ease;
+}
+
+.sg-card.sg-visible .sg-tech li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sg-tech li:hover {
+  background: color-mix(in srgb, var(--clr) 18%, transparent);
+  border-color: color-mix(in srgb, var(--clr) 45%, transparent);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 720px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .sg-card-inner { padding: 1.6rem 1.8rem 1.4rem; }
+  .sg-card-inner h3 { font-size: 1.1rem; }
+  /* disable tilt on touch */
+  .sg-card-inner { transform: none !important; }
+}
+
+@media (max-width: 640px) {
+  #skills { padding-top: 60px; }
+}

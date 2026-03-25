@@ -1,0 +1,281 @@
+/* ═══════════════════════════════════════════
+   EXPERIENCE — MacBook boot + code typewriter
+═══════════════════════════════════════════ */
+
+#experience {
+  background: var(--bg-card);
+  padding: 100px 0 120px;
+}
+
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ── MacBook outer frame ── */
+.macbook-exp { max-width: 1200px; }
+
+.macbook {
+  width: 100%;
+  background: #07070f;
+  border-radius: 14px 14px 0 0;
+  border: 1.5px solid rgba(233,30,140,0.22);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(233,30,140,0.04),
+    0 24px 80px rgba(0,0,0,0.65),
+    0 0 40px rgba(233,30,140,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Camera notch */
+.mac-camera-bar {
+  height: 20px;
+  background: #04040a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(233,30,140,0.08);
+  flex-shrink: 0;
+}
+.mac-cam-dot {
+  width: 5px; height: 5px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+
+/* ── Screen area ── */
+.mac-screen {
+  position: relative;
+  height: 520px;
+  background: #03030a;
+  overflow: hidden;
+}
+
+/* ─── OFF STATE ─── */
+.mac-off-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  background: #03030a;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 10;
+}
+
+.mac-off-state.powering {
+  opacity: 0;
+  transform: scale(1.03);
+  pointer-events: none;
+}
+
+.mac-power-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(233,30,140,0.35);
+  background: rgba(233,30,140,0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(233,30,140,0.65);
+  animation: powerPulse 2.8s ease-in-out infinite;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.mac-power-btn:hover {
+  background: rgba(233,30,140,0.13);
+  border-color: rgba(233,30,140,0.8);
+  color: #e91e8c;
+  box-shadow: 0 0 28px rgba(233,30,140,0.35);
+  transform: scale(1.06);
+  animation: none;
+}
+.mac-power-btn:active { transform: scale(0.96); }
+
+@keyframes powerPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(233,30,140,0.1); }
+  50%       { box-shadow: 0 0 22px rgba(233,30,140,0.32); }
+}
+
+.mac-power-label {
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+}
+
+/* ─── BOOT FLASH ─── */
+.mac-screen.boot-flash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  animation: bootFlash 0.25s ease forwards;
+  pointer-events: none;
+  z-index: 20;
+}
+@keyframes bootFlash {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ─── ON STATE ─── */
+.mac-on-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0a0a16;
+  opacity: 0;
+}
+.mac-on-state.on-fade-in {
+  animation: onFadeIn 0.45s ease forwards;
+}
+@keyframes onFadeIn {
+  to { opacity: 1; }
+}
+
+/* Browser toolbar */
+.mac-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(233,30,140,0.1);
+  padding: 0.5rem 1rem;
+  flex-shrink: 0;
+}
+.mac-dot       { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.mac-dot.r     { background: #ff5f57; }
+.mac-dot.y     { background: #ffbd2e; }
+.mac-dot.g     { background: #28c840; }
+
+.mac-addr {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 0.18rem 0.7rem;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mac-meta-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  white-space: nowrap;
+  opacity: 0.75;
+}
+
+/* ─── CODE EDITOR AREA ─── */
+.mac-editor {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0 1.2rem;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.mac-editor::-webkit-scrollbar { display: none; }
+
+.mac-code-out {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ─── Code lines ─── */
+.mcl {
+  display: flex;
+  align-items: baseline;
+  white-space: pre;
+  padding: 0 1.4rem 0 0;
+}
+
+.mcl-num {
+  display: inline-block;
+  min-width: 2.8rem;
+  text-align: right;
+  padding-right: 1.6rem;
+  color: rgba(255,255,255,0.12);
+  user-select: none;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  white-space: pre;
+}
+
+/* ─── Syntax token colours ─── */
+.tok-cm { color: rgba(255,255,255,0.28); font-style: italic; } /* comment   */
+.tok-kw { color: #74b9ff; }                                    /* keyword   */
+.tok-vr { color: #ede8ff; }                                    /* variable  */
+.tok-tp { color: #00c896; }                                    /* type      */
+.tok-ky { color: #c792ea; }                                    /* obj key   */
+.tok-st { color: #e91e8c; }                                    /* string    */
+.tok-pt { color: rgba(237,232,255,0.5); }                      /* punct     */
+
+/* ─── Blinking end-cursor ─── */
+.mac-cursor-end {
+  display: inline-block;
+  width: 7px;
+  height: 0.9em;
+  background: #e91e8c;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: cursorBlink 1s step-end infinite;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── MacBook aluminium base ── */
+.macbook-base {
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(to bottom, #131326, #0a0a18);
+  border: 1.5px solid rgba(233,30,140,0.14);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  position: relative;
+}
+.macbook-base::before {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px; height: 4px;
+  background: rgba(233,30,140,0.12);
+  border-radius: 2px;
+}
+
+.macbook-shadow {
+  width: 70%;
+  height: 14px;
+  margin: 0 auto;
+  background: radial-gradient(ellipse, rgba(233,30,140,0.12) 0%, transparent 70%);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .macbook-exp { max-width: 100%; }
+}
+@media (max-width: 900px) {
+  .macbook-exp  { max-width: 100%; }
+  .mac-screen   { height: 460px; }
+}
+@media (max-width: 640px) {
+  .mac-screen   { height: 400px; }
+  .mac-code-out { font-size: 0.82rem; }
+  .mcl          { padding-right: 0.8rem; }
+}

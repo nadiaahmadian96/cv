@@ -7,16 +7,21 @@
   if (!loader) return;
 
   const greetings = [
-    { word: 'Hello.',             lang: 'English' },
-    { word: 'Bonjour.',           lang: 'Français' },
-    { word: 'こんにちは',          lang: '日本語' },
-    { word: 'مرحباً',             lang: 'العربية' },
-    { word: 'Hola.',              lang: 'Español' },
-    { word: '> console.log("Hi")',lang: 'JavaScript' },
-    { word: 'print("Hello")',     lang: 'Python' },
-    { word: 'cout << "Hi";',      lang: 'C++' },
-    { word: 'fn main() {}',       lang: 'Rust' },
-    { word: 'Hello.',             lang: 'English' },
+    { word: 'Hello.',                        lang: 'English' },
+    { word: 'Bonjour.',                      lang: 'Français' },
+    { word: 'こんにちは',                     lang: '日本語' },
+    { word: 'مرحباً',                        lang: 'العربية' },
+    { word: 'Hola.',                         lang: 'Español' },
+    { word: '> console.log("Hi")',           lang: 'JavaScript' },
+    { word: 'print("Hello")',                lang: 'Python' },
+    { word: 'print("Hello")',                lang: 'Swift' },
+    { word: 'var body: some View {}',        lang: 'SwiftUI' },
+    { word: 'useState(null)',                lang: 'React' },
+    { word: 'const x = computed(() => {})', lang: 'TypeScript' },
+    { word: 'Console.WriteLine("Hi");',     lang: 'C#' },
+    { word: 'SELECT * FROM nadia;',         lang: 'PostgreSQL' },
+    { word: 'docker run nadia',             lang: 'Docker' },
+    { word: 'Hello.',                        lang: 'English' },
   ];
 
   let idx = 0;

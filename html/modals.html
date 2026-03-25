@@ -1,0 +1,44 @@
+  <!-- GAME MODAL -->
+  <div id="game-modal" role="dialog" aria-modal="true" aria-label="Mini Breakout Game">
+    <div class="game-box">
+      <div class="game-title-bar">
+        <span class="game-title">👾 Alien Strike</span>
+        <button id="game-close" aria-label="Close game">✕</button>
+      </div>
+      <canvas id="game-canvas" width="420" height="280"></canvas>
+      <div class="game-hud">
+        <div class="game-hud-stat">Score <strong id="game-score">0</strong></div>
+        <button id="game-restart">↺ Restart</button>
+        <div class="game-hud-stat">
+          Lives
+          <div class="game-lives" id="game-lives">
+            <span class="game-heart">❤️</span>
+            <span class="game-heart">❤️</span>
+            <span class="game-heart">❤️</span>
+          </div>
+        </div>
+      </div>
+      <p class="game-mobile-hint">Drag to move · Tap to shoot</p>
+    </div>
+  </div>
+
+  <!-- PIANO BUTTON -->
+  <button id="piano-btn" aria-label="Open piano" title="Psst… 🎹">🎹</button>
+
+  <!-- PIANO MODAL -->
+  <div id="piano-modal" role="dialog" aria-modal="true" aria-label="Piano">
+    <div class="piano-box">
+      <div class="piano-header">
+        <p class="piano-title">🎹</p>
+        <span id="piano-sustain-ind" class="piano-sustain-ind">sustain off</span>
+        <button id="piano-close" class="piano-close" aria-label="Close">✕</button>
+      </div>
+      <canvas id="piano-viz" height="240"></canvas>
+      <div class="piano-keys" id="piano-keys"></div>
+      <p class="piano-hint">
+        Lower: <span>Z X C V B N M</span> &nbsp;·&nbsp;
+        Upper: <span>Q W E R T Y U</span> &nbsp;·&nbsp;
+        Sustain: <span>Space</span>
+      </p>
+    </div>
+  </div>

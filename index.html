@@ -12,14 +12,18 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/hero.css" />
   <link rel="stylesheet" href="css/nav.css" />
-  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/statement.css" />
+  <link rel="stylesheet" href="css/skills.css" />
+  <link rel="stylesheet" href="css/experience.css" />
+  <link rel="stylesheet" href="css/contact.css" />
+  <link rel="stylesheet" href="css/footer.css" />
   <link rel="stylesheet" href="css/riddles.css" />
   <link rel="stylesheet" href="css/piano.css" />
   <link rel="stylesheet" href="css/floatingcard.css" />
   <link rel="stylesheet" href="css/game.css" />
 </head>
-<body>
 
+<body>
   <!-- HEX CANVAS BACKGROUND -->
   <canvas id="hex-canvas" aria-hidden="true"></canvas>
 
@@ -27,32 +31,7 @@
   <div id="cursor-dot"  aria-hidden="true"></div>
   <div id="cursor-ring" aria-hidden="true"></div>
 
-  <!-- FLOATING CARD -->
-  <div id="floating-card" aria-hidden="true">
-    <div class="fcard-inner" id="fcard-inner">
-      <div class="fcard-front">
-        <img src="photo.jpg" alt="Nadia Ahmadian"
-             onerror="this.style.display='none';document.getElementById('fcard-fallback').style.display='flex';" />
-        <div id="fcard-fallback" class="fcard-fallback">NA</div>
-        <div class="fcard-front-overlay">
-          <span>Nadia Ahmadian</span>
-          <span>Software Engineer</span>
-        </div>
-      </div>
-      <div class="fcard-back">
-        <!-- Optional video background — drop video.mp4 in repo root -->
-        <video class="fcard-video" autoplay muted loop playsinline aria-hidden="true">
-          <source src="video.mp4" type="video/mp4">
-        </video>
-        <div class="fcard-back-inner">
-          <div class="fcard-name-display">NADIA<br>AHMADIAN</div>
-          <div id="fcard-back-content"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LOADER -->
+<!-- LOADER -->
   <div id="loader" aria-hidden="true">
     <span class="loader-lang" id="loader-lang">// English</span>
     <span class="loader-word" id="loader-word">Hello.</span>
@@ -70,8 +49,12 @@
       <div class="hero-name-row">
         <h1 class="hero-first">NADIA</h1>
 
-        <!-- invisible placeholder — keeps layout space; floating-card overlays this -->
-        <div class="hero-photo-card" id="hero-card-anchor" aria-hidden="true"></div>
+        <!-- Card between NADIA and AHMADIAN -->
+        <div id="floating-card">
+          <img src="photo.jpg" alt="Nadia Ahmadian"
+               onerror="this.style.display='none';document.getElementById('fcard-fallback').style.display='flex';" />
+          <div id="fcard-fallback" class="fcard-fallback">NA</div>
+        </div>
 
         <h1 class="hero-last">AHMADIAN</h1>
       </div>
@@ -109,7 +92,7 @@
   <section id="statement" class="statement-section">
     <div class="statement-sticky-wrap">
       <div class="section-inner">
-        <p class="statement-text">I build things that ship — from complex iOS apps to full-stack web platforms. I move fast, write clean code, and care deeply about the people using what I make. Every line has a purpose.</p>
+        <p class="statement-text">Hi, I'm Nadia. I'm 29, based in Vancouver, and I've been writing code long enough to have strong opinions about it and bad posture from it. I build iOS apps, full-stack platforms, and the occasional 2am side project nobody asked for but I couldn't stop thinking about. I obsess over the details nobody told me to obsess over, and I somehow always end up being the person who inherits the codebase everyone else quietly abandoned. Outside of work I teach piano, lose at badminton with tremendous dignity, and have definitely beaten every game I've ever played in a completely normal number of attempts. I care embarrassingly deeply about the things I make. If that sounds like your kind of person, keep scrolling.</p>
       </div>
     </div>
   </section>
@@ -122,58 +105,85 @@
         <h2 class="section-heading">I solve problems<br><em>through code.</em></h2>
       </div>
 
-      <!-- Stacking cards -->
-      <div class="skills-stack">
+      <div class="skills-grid">
 
-        <div class="stack-item" style="--z:1">
-          <div class="skill-card" data-panel="fullstack">
-            <span class="card-tag">Web</span>
-            <h3>01. Full-Stack Development</h3>
-            <p>End-to-end web applications — from pixel-perfect React UIs to rock-solid Node.js backends and cloud deployments.</p>
-            <ul class="tech-list">
-              <li>React.js</li><li>Next.js</li><li>TypeScript</li>
-              <li>Node.js</li><li>Express</li><li>Material-UI</li>
+        <div class="sg-card reveal" style="--clr: #e91e8c">
+          <div class="sg-card-inner">
+            <span class="sg-num">01</span>
+            <div class="sg-header">
+              <span class="sg-badge">Web</span>
+              <h3>Full-Stack Development</h3>
+            </div>
+            <p>End-to-end web apps from pixel-perfect React UIs to rock-solid backends and cloud deployments.</p>
+            <ul class="sg-tech">
+              <li style="--i:0">React.js</li>
+              <li style="--i:1">Next.js</li>
+              <li style="--i:2">TypeScript</li>
+              <li style="--i:3">Node.js</li>
+              <li style="--i:4">Express</li>
+              <li style="--i:5">Material-UI</li>
             </ul>
           </div>
         </div>
 
-        <div class="stack-item" style="--z:2">
-          <div class="skill-card" data-panel="ios">
-            <span class="card-tag">Mobile</span>
-            <h3>02. iOS Development</h3>
+        <div class="sg-card reveal" style="--clr: #8b2fff">
+          <div class="sg-card-inner">
+            <span class="sg-num">02</span>
+            <div class="sg-header">
+              <span class="sg-badge">Mobile</span>
+              <h3>iOS Development</h3>
+            </div>
             <p>Production-grade iOS apps with Swift and SwiftUI — real-time sync, push notifications, and AI-assisted workflows.</p>
-            <ul class="tech-list">
-              <li>Swift</li><li>SwiftUI</li><li>Firebase</li>
-              <li>Core Data</li><li>CloudKit</li><li>OpenAI API</li>
+            <ul class="sg-tech">
+              <li style="--i:0">Swift</li>
+              <li style="--i:1">SwiftUI</li>
+              <li style="--i:2">Firebase</li>
+              <li style="--i:3">Core Data</li>
+              <li style="--i:4">CloudKit</li>
+              <li style="--i:5">OpenAI API</li>
             </ul>
           </div>
         </div>
 
-        <div class="stack-item" style="--z:3">
-          <div class="skill-card" data-panel="backend">
-            <span class="card-tag">Systems</span>
-            <h3>03. APIs &amp; Backend Systems</h3>
+        <div class="sg-card reveal" style="--clr: #74b9ff">
+          <div class="sg-card-inner">
+            <span class="sg-num">03</span>
+            <div class="sg-header">
+              <span class="sg-badge">Systems</span>
+              <h3>APIs &amp; Backend Systems</h3>
+            </div>
             <p>Scalable RESTful services, event-driven workflows, secure auth, and high-performance database design.</p>
-            <ul class="tech-list">
-              <li>.NET Core</li><li>C#</li><li>PostgreSQL</li>
-              <li>MongoDB</li><li>SQL Server</li><li>JWT / RBAC</li>
+            <ul class="sg-tech">
+              <li style="--i:0">.NET Core</li>
+              <li style="--i:1">C#</li>
+              <li style="--i:2">PostgreSQL</li>
+              <li style="--i:3">MongoDB</li>
+              <li style="--i:4">SQL Server</li>
+              <li style="--i:5">JWT / RBAC</li>
             </ul>
           </div>
         </div>
 
-        <div class="stack-item" style="--z:4">
-          <div class="skill-card" data-panel="cloud">
-            <span class="card-tag">Cloud</span>
-            <h3>04. Cloud &amp; DevOps</h3>
+        <div class="sg-card reveal" style="--clr: #00c896">
+          <div class="sg-card-inner">
+            <span class="sg-num">04</span>
+            <div class="sg-header">
+              <span class="sg-badge">Cloud</span>
+              <h3>Cloud &amp; DevOps</h3>
+            </div>
             <p>Production systems on AWS with Docker-based CI/CD, CloudWatch monitoring, and zero-downtime deployments.</p>
-            <ul class="tech-list">
-              <li>AWS EC2</li><li>AWS S3</li><li>Docker</li>
-              <li>CloudWatch</li><li>Nginx</li><li>CI/CD</li>
+            <ul class="sg-tech">
+              <li style="--i:0">AWS EC2</li>
+              <li style="--i:1">AWS S3</li>
+              <li style="--i:2">Docker</li>
+              <li style="--i:3">CloudWatch</li>
+              <li style="--i:4">Nginx</li>
+              <li style="--i:5">CI/CD</li>
             </ul>
           </div>
         </div>
 
-      </div><!-- /.skills-stack -->
+      </div>
     </div>
   </section>
 
@@ -186,86 +196,87 @@
       </div>
       <div class="exp-list">
 
-        <!-- ── MacBook 01: Ashna Software ── -->
-        <div class="macbook-exp reveal">
+        <!-- ── MacBook 01 ── -->
+        <div class="macbook-exp reveal" data-job="ashna">
           <div class="macbook">
             <div class="mac-camera-bar"><div class="mac-cam-dot"></div></div>
-            <div class="mac-toolbar">
-              <span class="mac-dot r"></span>
-              <span class="mac-dot y"></span>
-              <span class="mac-dot g"></span>
-              <span class="mac-addr">ashna-software.dev/dashboard</span>
-              <span class="mac-meta-badge">Full-Time &nbsp;·&nbsp; Jun 2022 — Oct 2025</span>
-            </div>
-            <div class="mac-content">
-              <div class="mac-header">
-                <h3>Full-Stack Developer</h3>
-                <span class="exp-company">@ Ashna Software</span>
-                <span class="exp-badge">Full-Time</span>
+            <div class="mac-screen">
+              <div class="mac-off-state">
+                <button class="mac-power-btn" aria-label="Power on">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                    <path d="M12 2v7"/><path d="M6.3 5.3a9 9 0 1 0 11.4 0"/>
+                  </svg>
+                </button>
+                <span class="mac-power-label">click to boot</span>
               </div>
-              <div class="exp-date-line">Jun 2022 — Oct 2025</div>
-              <ul class="exp-bullets">
-                <li>Designed and built a real-time guard tour system with NFC, BLE, QR codes, and GPS — live patrol tracking, incident reporting, and analytics dashboards.</li>
-                <li>Built RESTful services in Node.js, Express, .NET Core, and C#; SQL Server for operations, MongoDB for high-volume event logs.</li>
-                <li>Developed an enterprise facility management platform with multi-step approval workflows, reservation management, and configurable payment policies.</li>
-                <li>Deployed on AWS (EC2, S3) with CloudWatch monitoring and Docker-based CI/CD pipelines.</li>
-              </ul>
+              <div class="mac-on-state" hidden>
+                <div class="mac-toolbar">
+                  <span class="mac-dot r"></span><span class="mac-dot y"></span><span class="mac-dot g"></span>
+                  <span class="mac-addr"></span>
+                  <span class="mac-meta-badge"></span>
+                </div>
+                <div class="mac-editor">
+                  <div class="mac-code-out"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="macbook-base"></div>
           <div class="macbook-shadow"></div>
         </div>
 
-        <!-- ── MacBook 02: Que Gallery ── -->
-        <div class="macbook-exp reveal">
+        <!-- ── MacBook 02 ── -->
+        <div class="macbook-exp reveal" data-job="que">
           <div class="macbook">
             <div class="mac-camera-bar"><div class="mac-cam-dot"></div></div>
-            <div class="mac-toolbar">
-              <span class="mac-dot r"></span>
-              <span class="mac-dot y"></span>
-              <span class="mac-dot g"></span>
-              <span class="mac-addr">que-gallery.ca/inventory</span>
-              <span class="mac-meta-badge">Contract &nbsp;·&nbsp; Feb 2024 — Aug 2024</span>
-            </div>
-            <div class="mac-content">
-              <div class="mac-header">
-                <h3>Full-Stack Developer</h3>
-                <span class="exp-company">@ Que Gallery</span>
-                <span class="exp-badge">Contract</span>
+            <div class="mac-screen">
+              <div class="mac-off-state">
+                <button class="mac-power-btn" aria-label="Power on">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                    <path d="M12 2v7"/><path d="M6.3 5.3a9 9 0 1 0 11.4 0"/>
+                  </svg>
+                </button>
+                <span class="mac-power-label">click to boot</span>
               </div>
-              <div class="exp-date-line">Feb 2024 — Aug 2024</div>
-              <ul class="exp-bullets">
-                <li>Built an inventory and sales management platform for art galleries — real-time tracking of sales, payments, returns, and stakeholder balances.</li>
-                <li>Implemented revenue distribution logic with Node.js + PostgreSQL; later reimplemented in PHP + MySQL per client requirements.</li>
-              </ul>
+              <div class="mac-on-state" hidden>
+                <div class="mac-toolbar">
+                  <span class="mac-dot r"></span><span class="mac-dot y"></span><span class="mac-dot g"></span>
+                  <span class="mac-addr"></span>
+                  <span class="mac-meta-badge"></span>
+                </div>
+                <div class="mac-editor">
+                  <div class="mac-code-out"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="macbook-base"></div>
           <div class="macbook-shadow"></div>
         </div>
 
-        <!-- ── MacBook 03: Bahara Bakery ── -->
-        <div class="macbook-exp reveal">
+        <!-- ── MacBook 03 ── -->
+        <div class="macbook-exp reveal" data-job="bahara">
           <div class="macbook">
             <div class="mac-camera-bar"><div class="mac-cam-dot"></div></div>
-            <div class="mac-toolbar">
-              <span class="mac-dot r"></span>
-              <span class="mac-dot y"></span>
-              <span class="mac-dot g"></span>
-              <span class="mac-addr">bahara-bakery.app/orders</span>
-              <span class="mac-meta-badge">iOS &nbsp;·&nbsp; Sep 2024 — Dec 2024</span>
-            </div>
-            <div class="mac-content">
-              <div class="mac-header">
-                <h3>iOS Developer</h3>
-                <span class="exp-company">@ Bahara Bakery</span>
-                <span class="exp-badge">Contract</span>
+            <div class="mac-screen">
+              <div class="mac-off-state">
+                <button class="mac-power-btn" aria-label="Power on">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                    <path d="M12 2v7"/><path d="M6.3 5.3a9 9 0 1 0 11.4 0"/>
+                  </svg>
+                </button>
+                <span class="mac-power-label">click to boot</span>
               </div>
-              <div class="exp-date-line">Sep 2024 — Dec 2024</div>
-              <ul class="exp-bullets">
-                <li>Built a production iOS app in Swift and SwiftUI — product browsing, guided tutorials, and pre-order scheduling.</li>
-                <li>Integrated OpenAI API for AI-assisted custom orders; designed a Firebase + Core Data + CloudKit cloud architecture.</li>
-              </ul>
+              <div class="mac-on-state" hidden>
+                <div class="mac-toolbar">
+                  <span class="mac-dot r"></span><span class="mac-dot y"></span><span class="mac-dot g"></span>
+                  <span class="mac-addr"></span>
+                  <span class="mac-meta-badge"></span>
+                </div>
+                <div class="mac-editor">
+                  <div class="mac-code-out"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="macbook-base"></div>
@@ -282,24 +293,24 @@
       <div class="reveal">
         <span class="section-label">/ A Challenge For You</span>
         <h2 class="section-heading riddles-heading">Think you<br><em>know me?</em></h2>
-        <p class="riddles-intro">Three riddles. Three parts of who I am. Solve them all to unlock something special.</p>
+        <p class="riddles-intro">Four riddles. Four parts of who I am. Solve them all to unlock something special.</p>
       </div>
       <div class="riddles-grid">
 
-        <!-- RIDDLE 01: git -->
-        <div class="riddle-card reveal" data-answer="git" data-id="0">
+        <!-- RIDDLE 01: recursion -->
+        <div class="riddle-card reveal" data-answer="recursion" data-id="0">
           <div class="terminal-bar">
             <span class="t-dot t-red"></span>
             <span class="t-dot t-yellow"></span>
             <span class="t-dot t-green"></span>
             <span class="terminal-title">riddle_01.sh</span>
           </div>
-          <pre class="riddle-code">// I have branches but no leaves,
-// commits but no regrets,
-// and a HEAD that moves
-// with every change.
+          <pre class="riddle-code">// I am the mirror that holds a mirror.
+// To define me, you must first define me.
+// I call myself by name,
+// and only a base case
+// saves the world from a stack overflow.
 //
-// Merge me. Push me. Fear me.
 // What am I?</pre>
           <div class="riddle-input-row">
             <span class="prompt">$&gt;&nbsp;</span>
@@ -309,21 +320,21 @@
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
 
-        <!-- RIDDLE 02: piano -->
-        <div class="riddle-card reveal" data-answer="piano" data-id="1">
+        <!-- RIDDLE 02: moonlight sonata -->
+        <div class="riddle-card reveal" data-answer="moonlight sonata" data-id="1">
           <div class="terminal-bar">
             <span class="t-dot t-red"></span>
             <span class="t-dot t-yellow"></span>
             <span class="t-dot t-green"></span>
             <span class="terminal-title">riddle_02.sh</span>
           </div>
-          <pre class="riddle-code">// 88 voices, one soul.
-// I cry in minor,
-// laugh in major,
-// and live between your hands.
+          <pre class="riddle-code">// Beethoven wrote me in 1801
+// but never gave me this name.
+// A poet saw moonlight on a lake
+// and named me after the reflection.
+// Three movements. One haunts 2am.
 //
-// Touch me and I speak.
-// What am I?</pre>
+// Name this sonata.</pre>
           <div class="riddle-input-row">
             <span class="prompt">$&gt;&nbsp;</span>
             <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
@@ -332,21 +343,21 @@
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
 
-        <!-- RIDDLE 03: game -->
-        <div class="riddle-card reveal" data-answer="game" data-id="2">
+        <!-- RIDDLE 03: ghost of tsushima -->
+        <div class="riddle-card reveal" data-answer="ghost of tsushima" data-id="2">
           <div class="terminal-bar">
             <span class="t-dot t-red"></span>
             <span class="t-dot t-yellow"></span>
             <span class="t-dot t-green"></span>
             <span class="terminal-title">riddle_03.sh</span>
           </div>
-          <pre class="riddle-code">// Death is a checkpoint here.
-// Quests spawn forever.
-// There IS a final boss —
-// but you never truly finish.
+          <pre class="riddle-code">// An island. A samurai. A choice:
+// fight with honour and lose,
+// or become the shadow they fear
+// to save everyone you love.
+// The wind points the way.
 //
-// INSERT COIN to continue.
-// What am I?</pre>
+// Name this game.</pre>
           <div class="riddle-input-row">
             <span class="prompt">$&gt;&nbsp;</span>
             <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
@@ -355,21 +366,21 @@
           <p class="riddle-feedback" aria-live="polite"></p>
         </div>
 
-        <!-- RIDDLE 04: anime -->
-        <div class="riddle-card reveal" data-answer="anime" data-id="3">
+        <!-- RIDDLE 04: spirited away -->
+        <div class="riddle-card reveal" data-answer="spirited away" data-id="3">
           <div class="terminal-bar">
             <span class="t-dot t-red"></span>
             <span class="t-dot t-yellow"></span>
             <span class="t-dot t-green"></span>
             <span class="terminal-title">riddle_04.sh</span>
           </div>
-          <pre class="riddle-code">// I cry at fictional deaths.
-// Strong opinions on sub vs dub.
-// Attack on what? Death who?
-// One what? Demon who?
+          <pre class="riddle-code">// A girl walks through a gate.
+// Her parents eat too much.
+// She loses her name, finds her power,
+// scrubs a river spirit clean,
+// and learns that love crosses worlds.
 //
-// This world consumes my evenings.
-// What am I watching?</pre>
+// Name this film.</pre>
           <div class="riddle-input-row">
             <span class="prompt">$&gt;&nbsp;</span>
             <input type="text" class="riddle-input" placeholder="./answer.sh" autocomplete="off" spellcheck="false" />
@@ -435,7 +446,7 @@
   <div id="game-modal" role="dialog" aria-modal="true" aria-label="Mini Breakout Game">
     <div class="game-box">
       <div class="game-title-bar">
-        <span class="game-title">🎮 Pixel Breaker</span>
+        <span class="game-title">👾 Alien Strike</span>
         <button id="game-close" aria-label="Close game">✕</button>
       </div>
       <canvas id="game-canvas" width="420" height="280"></canvas>
@@ -451,26 +462,27 @@
           </div>
         </div>
       </div>
-      <p class="game-mobile-hint">Tap &amp; drag to move paddle</p>
+      <p class="game-mobile-hint">Drag to move · Tap to shoot</p>
     </div>
   </div>
 
   <!-- PIANO BUTTON -->
-  <button id="piano-btn" aria-label="Open mini piano" title="Psst… 🎹">🎹</button>
+  <button id="piano-btn" aria-label="Open piano" title="Psst… 🎹">🎹</button>
 
   <!-- PIANO MODAL -->
-  <div id="piano-modal" role="dialog" aria-modal="true" aria-label="Mini Piano">
+  <div id="piano-modal" role="dialog" aria-modal="true" aria-label="Piano">
     <div class="piano-box">
       <div class="piano-header">
-        <div>
-          <p class="piano-title">🎹 Mini Piano</p>
-          <p class="piano-subtitle">Click keys or use your keyboard.</p>
-        </div>
-        <button id="piano-close" class="piano-close" aria-label="Close piano">✕</button>
+        <p class="piano-title">🎹</p>
+        <span id="piano-sustain-ind" class="piano-sustain-ind">sustain off</span>
+        <button id="piano-close" class="piano-close" aria-label="Close">✕</button>
       </div>
+      <canvas id="piano-viz" height="240"></canvas>
       <div class="piano-keys" id="piano-keys"></div>
       <p class="piano-hint">
-        White: <span>A S D F G H J K L</span> &nbsp;·&nbsp; Black: <span>W E T Y U O P</span>
+        Lower: <span>Z X C V B N M</span> &nbsp;·&nbsp;
+        Upper: <span>Q W E R T Y U</span> &nbsp;·&nbsp;
+        Sustain: <span>Space</span>
       </p>
     </div>
   </div>
@@ -479,11 +491,16 @@
   <script src="js/loader.js"></script>
   <script src="js/hero.js"></script>
   <script src="js/nav.js"></script>
-  <script src="js/scroll.js"></script>
+  <script src="js/scroll-reveals.js"></script>
+  <script src="js/skills-tilt.js"></script>
+  <script src="js/experience-boot.js"></script>
+  <script src="js/scroll-statement.js"></script>
   <script src="js/hexbg.js"></script>
   <script src="js/floatingcard.js"></script>
   <script src="js/piano.js"></script>
   <script src="js/minigame.js"></script>
+  <script src="js/riddle-prizes.js"></script>
   <script src="js/riddles.js"></script>
+
 </body>
 </html>

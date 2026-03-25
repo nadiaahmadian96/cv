@@ -19,18 +19,15 @@
   font-size: 0.88rem;
   color: var(--text-muted);
   margin-bottom: 3rem;
-  max-width: 480px;
+  max-width: 600px;
 }
 .riddles-intro::before { content: '// '; color: rgba(233,30,140,0.5); }
 
-/* ─── Grid — 2×2 default, 4-col on wide screens ─── */
+/* ─── Grid — always 2×2 ─── */
 .riddles-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.4rem;
-}
-@media (min-width: 1100px) {
-  .riddles-grid { grid-template-columns: repeat(4, 1fr); }
+  gap: 1.8rem;
 }
 
 /* ─── Terminal Card ─── */
@@ -76,7 +73,7 @@
 
 .terminal-title {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   margin-left: 0.5rem;
   letter-spacing: 0.04em;
@@ -86,20 +83,14 @@
 /* ── Code block ── */
 .riddle-code {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  line-height: 1.75;
-  color: rgba(237,232,255,0.65);
-  padding: 1.2rem 1.2rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #7ec887;
+  padding: 1.6rem 1.6rem 1.4rem;
   white-space: pre;
   overflow-x: auto;
   flex: 1;
-  /* Syntax highlights — comments in muted green */
   background: transparent;
-}
-
-/* Comment-style riddle text */
-.riddle-code {
-  color: #6a9955;   /* VSCode comment green */
 }
 
 /* ── Input row with $> prompt ── */
@@ -107,14 +98,14 @@
   display: flex;
   align-items: center;
   gap: 0;
-  padding: 0.7rem 1rem 0.8rem;
+  padding: 0.9rem 1.4rem 1rem;
   border-top: 1px solid rgba(233,30,140,0.08);
   background: rgba(0,0,0,0.25);
 }
 
 .prompt {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--accent);
   flex-shrink: 0;
   user-select: none;
@@ -125,9 +116,9 @@
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(233,30,140,0.25);
-  padding: 0.15rem 0.4rem;
+  padding: 0.2rem 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--text);
   outline: none;
   transition: border-color var(--transition);
@@ -141,14 +132,14 @@
   color: var(--text-muted);
   border: 1px solid rgba(233,30,140,0.2);
   border-radius: 4px;
-  width: 32px;
-  height: 28px;
+  width: 40px;
+  height: 34px;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.5rem;
+  margin-left: 0.6rem;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
   flex-shrink: 0;
   cursor: pointer;
@@ -163,9 +154,9 @@
 /* ── Feedback line ── */
 .riddle-feedback {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.3rem 1rem 0.7rem;
-  min-height: 1.6em;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.4rem 0.9rem;
+  min-height: 1.8em;
   color: var(--text-muted);
   background: rgba(0,0,0,0.25);
 }
@@ -202,7 +193,9 @@
 }
 
 /* ─── Responsive ─── */
-@media (max-width: 560px) {
+@media (max-width: 700px) {
   .riddles-grid { grid-template-columns: 1fr; }
-  .riddle-code  { font-size: 0.72rem; }
+}
+@media (max-width: 560px) {
+  .riddle-code  { font-size: 0.85rem; }
 }

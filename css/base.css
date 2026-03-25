@@ -196,7 +196,11 @@ body.cursor-hover #cursor-ring { width: 46px; height: 46px; opacity: 0.18; }
 }
 
 .section-inner {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 100px clamp(1.2rem, 5vw, 2.5rem);
+  padding: 100px clamp(1.2rem, 5vw, 3rem);
+}
+
+@media (max-width: 640px) {
+  .section-inner { padding: 70px clamp(1rem, 4vw, 1.5rem); }
 }

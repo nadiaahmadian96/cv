@@ -1,93 +1,28 @@
-/* floatingcard.css
- *
- * The card is ALWAYS position:fixed.
- * JavaScript controls left / top / width / height / transform entirely.
- * No CSS transition on the inner wrapper — the JS spring-lerp IS the animation.
- */
+/* floatingcard.css — photo card between NADIA and AHMADIAN */
 
-/* ─── Hide on narrow screens ─── */
-@media (max-width: 900px) {
-  #floating-card { display: none !important; }
-}
-
-/* ─── Outer shell ─── */
 #floating-card {
-  position: fixed;
-  z-index: 60;
-  pointer-events: none;
-  transform-origin: center center;
-  opacity: 0;                     /* JS adds .fc-ready to reveal */
-  transition: opacity 0.5s ease;
-}
-
-#floating-card.fc-ready  { opacity: 1; }
-#floating-card.fc-docked { pointer-events: auto; }
-
-/* ─── 3-D flip wrapper — NO CSS transition; JS spring drives rotateY ─── */
-.fcard-inner {
+  width: clamp(110px, 13vw, 190px);
+  aspect-ratio: 3/4;
+  flex-shrink: 0;
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  /* ⚠️  intentionally no transition: here */
   border-radius: 18px;
-}
-
-/* ─── Shared face rules ─── */
-.fcard-front,
-.fcard-back {
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
   overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.7s 1.1s ease forwards;
+  transform: perspective(700px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+  box-shadow: 0 8px 32px rgba(233,30,140,0.12), 0 2px 8px rgba(0,0,0,0.3);
+  transition: box-shadow 0.4s ease;
 }
 
-/* ─── FRONT — photo ─── */
-.fcard-front {
-  background: var(--bg-dark);
+#floating-card:hover {
+  box-shadow: 0 20px 56px rgba(233,30,140,0.28), 0 4px 16px rgba(0,0,0,0.4);
 }
 
-.fcard-front img {
+#floating-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.fcard-front::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.65) 100%);
-  border-radius: 18px;
-}
-
-.fcard-front-overlay {
-  position: absolute;
-  bottom: 14px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.fcard-front-overlay span:first-child {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.04em;
-}
-
-.fcard-front-overlay span:last-child {
-  font-family: var(--font-hand);
-  font-size: 0.82rem;
-  color: var(--accent);
 }
 
 .fcard-fallback {
@@ -101,155 +36,4 @@
   font-weight: 700;
   color: var(--accent);
   background: var(--bg-dark);
-  border-radius: 18px;
-}
-
-/* ─── BACK — animated bg + name + section info ─── */
-.fcard-back {
-  background: var(--bg-dark);
-  transform: rotateY(180deg);     /* always pre-rotated 180° */
-  border: 1.5px solid rgba(233,30,140,0.30);
-  position: relative;
-  overflow: hidden;
-}
-
-/* CSS-only animated background — pulsing magenta/purple orbs */
-.fcard-back::before {
-  content: '';
-  position: absolute;
-  inset: -20%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(233,30,140,0.28) 0%, transparent 55%),
-    radial-gradient(circle at 70% 70%, rgba(139,47,255,0.22) 0%, transparent 55%);
-  animation: cardOrbPulse 4s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes cardOrbPulse {
-  0%   { transform: scale(1)    rotate(0deg); }
-  100% { transform: scale(1.15) rotate(8deg); }
-}
-
-/* Grid-line texture */
-.fcard-back::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(233,30,140,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(233,30,140,0.06) 1px, transparent 1px);
-  background-size: 18px 18px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Video (if user drops video.mp4 — gracefully optional) */
-.fcard-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.18;
-  border-radius: 18px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Overlay wrapper — MUST counter-rotate to cancel any mirror effect */
-.fcard-back-inner {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 0.8rem;
-  gap: 0.5rem;
-  /* Counter-rotate so text is never mirrored regardless of browser 3D rendering */
-  transform: scaleX(1) translateZ(1px);
-}
-
-/* "NADIA AHMADIAN" name display */
-.fcard-name-display {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 1.2;
-  text-shadow: 0 0 20px rgba(233,30,140,0.65);
-}
-
-/* Thin magenta divider below name */
-.fcard-name-display::after {
-  content: '';
-  display: block;
-  width: 28px;
-  height: 1.5px;
-  background: var(--accent);
-  margin: 0.45rem auto 0;
-  opacity: 0.7;
-}
-
-/* Dynamic section content */
-#fcard-back-content {
-  width: 100%;
-  text-align: center;
-  transition: opacity 0.25s ease;
-}
-
-#fcard-back-content.fading {
-  opacity: 0;
-}
-
-.fcard-emoji {
-  font-size: 1.6rem;
-  margin-bottom: 0.25rem;
-  display: block;
-}
-
-.fcard-back-title {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.fcard-back-lines {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.fcard-back-lines li {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: rgba(237,232,255,0.6);
-  line-height: 1.8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.fcard-back-lines li::before {
-  content: '> ';
-  color: var(--accent);
-  opacity: 0.6;
-}
-
-/* ─── Idle bob (docked only) ─── */
-@keyframes cardBob {
-  0%, 100% { box-shadow: 0 8px 32px rgba(233,30,140,0.12), 0 2px 8px rgba(0,0,0,0.2); }
-  50%       { box-shadow: 0 20px 56px rgba(233,30,140,0.22), 0 4px 16px rgba(0,0,0,0.3); }
-}
-
-#floating-card.fc-docked .fcard-inner {
-  animation: cardBob 4s ease-in-out infinite;
 }

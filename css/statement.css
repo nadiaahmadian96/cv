@@ -1,0 +1,47 @@
+/* ═══════════════════════════════════════════
+   STATEMENT — sticky 300 vh scroll-reveal section
+═══════════════════════════════════════════ */
+
+.statement-section {
+  min-height: 300vh;
+  background: var(--bg);
+  position: relative;
+}
+
+.statement-sticky-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: clamp(3rem, 8vh, 6rem);
+  overflow: visible;
+}
+
+.statement-sticky-wrap .section-inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.statement-text {
+  font-size: clamp(1.3rem, 2.4vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  max-width: 100%;
+}
+
+/* Words start transparent — JS adds .sw--on on scroll */
+.sw {
+  display: inline;
+  color: transparent;
+  transition: color 0.45s ease;
+}
+.sw--on {
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .statement-section { min-height: 200vh; }
+}
